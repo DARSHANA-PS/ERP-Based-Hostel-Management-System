@@ -3,10 +3,7 @@
 // ==========================
 
 // Removes trailing slash & supports environment variable on Vercel
-const API_BASE_URL =
-  (process.env.REACT_APP_API_URL?.replace(/\/$/, "")) ||
-  "http://localhost:5000/api";
-
+const API_BASE_URL = "https://appsail-50036818087.development.catalystappsail.in/api";
 
 // Helper function for API calls
 const apiCall = async (endpoint, method = 'GET', data = null) => {
