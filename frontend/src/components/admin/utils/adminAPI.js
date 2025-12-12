@@ -1,4 +1,12 @@
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+// ==========================
+// FIXED BASE URL FOR VERCEL + LOCALHOST
+// ==========================
+
+// Removes trailing slash & supports environment variable on Vercel
+const API_BASE_URL =
+  (process.env.REACT_APP_API_URL?.replace(/\/$/, "")) ||
+  "http://localhost:5000/api";
+
 
 // Helper function for API calls
 const apiCall = async (endpoint, method = 'GET', data = null) => {
@@ -34,6 +42,7 @@ const apiCall = async (endpoint, method = 'GET', data = null) => {
     throw error;
   }
 };
+
 
 export const adminAPI = {
   // Dashboard Stats
