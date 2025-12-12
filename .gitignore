@@ -4,14 +4,13 @@ frontend/node_modules/
 
 # Build files
 frontend/build/
-backend/dist/
 
-# Environment variables
-*.env
-
-# Upload folders (contains user images/videos)
+# Upload folders (user data - do not push)
 backend/uploads/
 uploads/
+
+# Env files
+*.env
 
 # Logs
 *.log
