@@ -1,0 +1,1286 @@
+/* Enhanced RoomManagement.css with Dark Theme */
+.room-management {
+  padding: 30px;
+  min-height: calc(100vh - 80px);
+}
+
+/* Section Header with Dark Theme */
+.section-header {
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 2px solid rgba(139, 107, 74, 0.2);
+}
+
+.header-content {
+  max-width: 600px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.section-title .icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--lighter-grey);
+  font-weight: 400;
+}
+
+/* Filters Section with Dark Theme */
+.filters-section {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(20px);
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-group.search-group {
+  min-width: 300px;
+}
+
+.filter-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--light-brown);
+  margin-bottom: 8px;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid rgba(139, 107, 74, 0.2);
+  border-radius: 15px;
+  font-size: 15px;
+  background: rgba(26, 26, 26, 0.5);
+  color: var(--white);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--brown);
+  background: rgba(26, 26, 26, 0.8);
+  box-shadow: 0 5px 15px rgba(139, 107, 74, 0.2);
+}
+
+.search-input-wrapper {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 45px 12px 16px;
+  border: 2px solid rgba(139, 107, 74, 0.2);
+  border-radius: 15px;
+  font-size: 15px;
+  background: rgba(26, 26, 26, 0.5);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--brown);
+  background: rgba(26, 26, 26, 0.8);
+  box-shadow: 0 5px 15px rgba(139, 107, 74, 0.2);
+}
+
+.search-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: var(--light-brown);
+  opacity: 0.5;
+}
+
+/* Room Statistics with Dark Theme */
+.room-statistics {
+  margin-bottom: 40px;
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(20px);
+  padding: 30px;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.room-statistics h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 25px;
+}
+
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 25px;
+  border-radius: 20px;
+  background: rgba(139, 107, 74, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(139, 107, 74, 0.1);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  background: rgba(139, 107, 74, 0.1);
+}
+
+.stat-card.total {
+  border-left: 4px solid #2196F3;
+}
+
+.stat-card.available {
+  border-left: 4px solid #4CAF50;
+}
+
+.stat-card.full {
+  border-left: 4px solid #f44336;
+}
+
+.stat-card.maintenance {
+  border-left: 4px solid #FF9800;
+}
+
+.stat-card.occupancy {
+  border-left: 4px solid #9C27B0;
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  opacity: 0.8;
+}
+
+.stat-info {
+  flex: 1;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 5px;
+  color: var(--white);
+}
+
+.stat-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--lighter-grey);
+}
+
+/* Rooms Grid with Dark Theme */
+.rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  animation: fadeInUp 0.6s ease;
+}
+
+.room-card {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.room-card.available {
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.room-card.full {
+  border-color: rgba(244, 67, 54, 0.3);
+}
+
+.room-card.maintenance {
+  border-color: rgba(255, 152, 0, 0.3);
+}
+
+.room-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(139, 107, 74, 0.3);
+}
+
+.room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(139, 107, 74, 0.1);
+}
+
+.room-number {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.available {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.status-badge.full {
+  background: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.status-badge.maintenance {
+  background: rgba(255, 152, 0, 0.2);
+  color: #FF9800;
+  border: 1px solid rgba(255, 152, 0, 0.3);
+}
+
+.room-info {
+  margin-bottom: 20px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 15px;
+}
+
+.info-label {
+  color: var(--lighter-grey);
+}
+
+.info-value {
+  font-weight: 600;
+  color: var(--white);
+}
+/* Room Actions with Dark Theme */
+.room-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.action-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(139, 107, 74, 0.1);
+  color: var(--lighter-grey);
+}
+
+.action-btn.view:hover {
+  background: #2196F3;
+  color: var(--white);
+  transform: translateY(-3px);
+}
+
+.action-btn.maintenance:hover {
+  background: #FF9800;
+  color: var(--white);
+  transform: translateY(-3px);
+}
+
+.action-btn.available:hover {
+  background: #4CAF50;
+  color: var(--white);
+  transform: translateY(-3px);
+}
+
+/* Floor Statistics with Dark Theme */
+.floor-stats {
+  padding-top: 30px;
+  border-top: 1px solid rgba(139, 107, 74, 0.1);
+}
+
+.floor-stats h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+.floor-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.floor-stat {
+  padding: 20px;
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(139, 107, 74, 0.1);
+}
+
+.floor-stat:hover {
+  background: rgba(139, 107, 74, 0.1);
+  transform: translateX(5px);
+}
+
+.floor-name {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+
+.floor-info {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: var(--lighter-grey);
+}
+
+/* Loading and Empty States with Dark Theme */
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 100px 20px;
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(139, 107, 74, 0.1);
+  border-top-color: var(--brown);
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.empty-icon {
+  font-size: 5rem;
+  margin-bottom: 20px;
+  color: var(--light-brown);
+  opacity: 0.3;
+}
+
+.empty-state h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  color: var(--lighter-grey);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .room-management {
+    padding: 20px;
+  }
+
+  .filters-section {
+    padding: 20px;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  .stats-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .rooms-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* Hostel Video Section */
+.hostel-video-section {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.btn-view-hostel-video {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #8B6B4A 0%, #A67C52 100%);
+  color: var(--white);
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(139, 107, 74, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-view-hostel-video:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-view-hostel-video:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(139, 107, 74, 0.4);
+}
+
+.btn-view-hostel-video:hover:before {
+  left: 100%;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+/* Modal Content */
+.modal-content {
+  background: rgba(26, 26, 26, 0.95);
+  border-radius: 25px;
+  padding: 0;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s ease;
+  border: 1px solid rgba(139, 107, 74, 0.3);
+}
+
+/* Video Modal Specific */
+.modal-content.video-modal {
+  width: 80%;
+  max-width: 1200px;
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px;
+  background: rgba(139, 107, 74, 0.1);
+  border-bottom: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.modal-close {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background: rgba(244, 67, 54, 0.8);
+  transform: rotate(90deg);
+}
+
+/* Video Container */
+.video-container {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 30px;
+}
+
+.video-container video {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Room Details Modal */
+.room-details-modal {
+  width: 800px;
+}
+
+.room-details {
+  padding: 30px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.room-details::-webkit-scrollbar {
+  width: 8px;
+}
+
+.room-details::-webkit-scrollbar-track {
+  background: rgba(139, 107, 74, 0.1);
+  border-radius: 10px;
+}
+
+.room-details::-webkit-scrollbar-thumb {
+  background: rgba(139, 107, 74, 0.5);
+  border-radius: 10px;
+}
+
+.room-details::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 107, 74, 0.7);
+}
+
+.details-section {
+  margin-bottom: 30px;
+}
+
+.details-section h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(139, 107, 74, 0.2);
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.detail-item.full-width {
+  grid-column: span 2;
+}
+
+.detail-label {
+  font-size: 13px;
+  color: var(--lighter-grey);
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 15px;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.detail-value.available {
+  color: #4CAF50;
+}
+
+/* Students List */
+.students-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.student-item {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.student-item:hover {
+  background: rgba(139, 107, 74, 0.1);
+  transform: translateX(5px);
+}
+
+.student-number {
+  font-weight: 600;
+  color: var(--light-brown);
+}
+
+.student-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.student-name {
+  font-weight: 600;
+  color: var(--white);
+  font-size: 16px;
+}
+
+.student-details,
+.student-contact {
+  font-size: 14px;
+  color: var(--lighter-grey);
+}
+
+/* Amenities List */
+.amenities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.amenity-tag {
+  padding: 8px 16px;
+  background: rgba(139, 107, 74, 0.2);
+  color: var(--light-brown);
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid rgba(139, 107, 74, 0.3);
+}
+
+/* Remarks */
+.remarks-text {
+  color: var(--lighter-grey);
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 15px;
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 15px;
+  margin: 0;
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  padding: 30px;
+  border-top: 1px solid rgba(139, 107, 74, 0.2);
+  background: rgba(139, 107, 74, 0.05);
+}
+
+.modal-actions button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-allocate {
+  background: #2196F3;
+  color: white;
+}
+
+.btn-allocate:hover {
+  background: #1976D2;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+.btn-maintenance {
+  background: #FF9800;
+  color: white;
+}
+
+.btn-maintenance:hover {
+  background: #F57C00;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+}
+
+.btn-available {
+  background: #4CAF50;
+  color: white;
+}
+
+.btn-available:hover {
+  background: #388E3C;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-edit {
+  background: rgba(139, 107, 74, 0.8);
+  color: white;
+}
+
+.btn-edit:hover {
+  background: rgba(139, 107, 74, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(139, 107, 74, 0.3);
+}
+
+/* Room Occupancy Bar */
+.room-occupancy {
+  margin: 20px 0;
+}
+
+.occupancy-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(139, 107, 74, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.occupancy-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  border-radius: 10px;
+  transition: width 0.6s ease;
+}
+
+.occupancy-text {
+  font-size: 14px;
+  color: var(--lighter-grey);
+  text-align: center;
+  display: block;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design for Modals */
+@media (max-width: 768px) {
+  .modal-content {
+    max-width: 95%;
+    margin: 10px;
+  }
+
+  .modal-content.video-modal {
+    width: 95%;
+  }
+
+  .video-container {
+    padding: 20px;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-item.full-width {
+    grid-column: span 1;
+  }
+
+  .modal-actions {
+    flex-wrap: wrap;
+  }
+}
+/* Add these styles to your existing RoomManagement.css */
+
+/* Hostel Video Section */
+.hostel-video-section {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-view-hostel-video {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-view-hostel-video:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Video Modal Specific Styles */
+.video-modal {
+  max-width: 90%;
+  max-height: 90vh;
+  width: auto;
+  background: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.video-modal .modal-header {
+  background: #2a2a2a;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.video-modal .modal-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.video-container video {
+  width: 100%;
+  height: auto;
+  max-height: calc(90vh - 80px);
+  object-fit: contain;
+}
+
+/* Modal Close Button for Video Modal */
+.video-modal .modal-close {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.video-modal .modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Ensure modal overlay is visible */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(30px) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+/* Video Modal Styles */
+.video-modal {
+  max-width: 90%;
+  max-height: 90vh;
+  width: auto;
+  background: #1a1a1a;
+}
+
+.video-modal .modal-header {
+  background: #2a2a2a;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.video-modal .modal-header h2 {
+  margin: 0;
+  color: white;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-container video {
+  width: 100%;
+  height: auto;
+  max-height: calc(90vh - 80px);
+}
+
+/* Hostel Video Section Button */
+.hostel-video-section {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+  padding: 20px;
+}
+
+.btn-view-hostel-video {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-view-hostel-video:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+/* Video Modal - Optimized for no scroll */
+.room-management .modal-content.video-modal {
+  width: 90vw;
+  max-width: 1000px;
+  height: 85vh;
+  max-height: 85vh;
+  background: #000;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.room-management .video-modal .modal-header {
+  background: #1a1a1a;
+  color: white;
+  padding: 15px 25px;
+  flex-shrink: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.room-management .video-modal .modal-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.room-management .video-container {
+  background: #000;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  overflow: hidden;
+  height: calc(100% - 60px);
+}
+
+.room-management .video-container video {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Ensure modal is centered properly */
+.room-management .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .room-management .modal-content.video-modal {
+    width: 95vw;
+    height: 80vh;
+  }
+  
+  .room-management .video-modal .modal-header {
+    padding: 10px 20px;
+    height: 50px;
+  }
+  
+  .room-management .video-modal .modal-header h2 {
+    font-size: 1.1rem;
+  }
+  
+  .room-management .video-container {
+    height: calc(100% - 50px);
+    padding: 5px;
+  }
+}
+/* Add these styles to your existing HostelManagement.css */
+
+/* Revenue and Amount Styling */
+.stat-box.highlight .stat-icon {
+  color: #4CAF50;
+}
+
+.stat-box.highlight .stat-number {
+  color: #4CAF50;
+  font-weight: 700;
+}
+
+.detail-value.highlight {
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+/* Form Group for Amount */
+.form-group input[name="perStudentAmount"] {
+  padding-left: 25px;
+}
+
+.form-group input[name="perStudentAmount"]::before {
+  content: "₹";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--lighter-grey);
+}
+
+/* Revenue Display in Form */
+.disabled-input {
+  background-color: rgba(139, 107, 74, 0.05) !important;
+  cursor: not-allowed !important;
+  color: var(--white) !important;
+  font-weight: 600;
+}
+
+/* Helper text styling */
+.helper-text {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--lighter-grey);
+  font-style: italic;
+}
+
+/* Stats Grid Enhancement */
+.hostel-stats-grid .stat-box.highlight {
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.hostel-stats-grid .stat-box.highlight .stat-icon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Revenue Stats in Details Modal */
+.room-stats {
+  margin-top: 30px;
+  padding: 25px;
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.room-stats h3 {
+  margin-bottom: 20px;
+  color: var(--white);
+  font-size: 1.3rem;
+}
+
+/* Additional Revenue Info Box */
+.revenue-info-box {
+  margin-top: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(139, 107, 74, 0.1) 100%);
+  border-radius: 15px;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.revenue-info-box h4 {
+  color: #4CAF50;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.revenue-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.revenue-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: rgba(26, 26, 26, 0.5);
+  border-radius: 10px;
+}
+
+.revenue-label {
+  color: var(--lighter-grey);
+  font-size: 14px;
+}
+
+.revenue-value {
+  color: #4CAF50;
+  font-weight: 600;
+  font-size: 16px;
+}

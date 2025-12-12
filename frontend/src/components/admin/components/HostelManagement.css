@@ -1,0 +1,1172 @@
+/* Enhanced HostelManagement.css with Dark Theme - Properly Scoped */
+
+/* Scope CSS variables to hostel-management to prevent conflicts */
+.hostel-management {
+  --hostel-brown: #8B6B4A;
+  --hostel-light-brown: #A68B6A;
+  --hostel-lighter-grey: #b3b3b3;
+  --hostel-dark-grey: #1a1a1a;
+  --hostel-darker-grey: #0a0a0a;
+  --hostel-white: #ffffff;
+  --hostel-gradient-brown: linear-gradient(135deg, #8B6B4A 0%, #A68B6A 100%);
+  
+  padding: 30px;
+  min-height: calc(100vh - 80px);
+  background: var(--hostel-darker-grey);
+}
+
+/* Section Header - Scoped */
+.hostel-management .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 2px solid rgba(139, 107, 74, 0.2);
+}
+
+.hostel-management .header-content {
+  flex: 1;
+}
+
+.hostel-management .section-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--hostel-white);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.hostel-management .section-title .icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+}
+
+.hostel-management .section-subtitle {
+  font-size: 1.1rem;
+  color: var(--hostel-lighter-grey);
+  font-weight: 400;
+}
+
+.hostel-management .btn-create {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 35px;
+  background: var(--hostel-gradient-brown);
+  color: var(--hostel-white);
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(139, 107, 74, 0.3);
+}
+
+.hostel-management .btn-create:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(139, 107, 74, 0.4);
+}
+
+/* Controls Section - Scoped */
+.hostel-management .controls-section {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.hostel-management .search-box {
+  flex: 1;
+  min-width: 300px;
+  position: relative;
+}
+
+.hostel-management .search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: var(--hostel-light-brown);
+  opacity: 0.5;
+}
+
+.hostel-management .search-input {
+  width: 100%;
+  padding: 18px 20px 18px 55px;
+  border: 2px solid rgba(139, 107, 74, 0.2);
+  border-radius: 20px;
+  font-size: 16px;
+  background: rgba(26, 26, 26, 0.8);
+  color: var(--hostel-white);
+  transition: all 0.3s ease;
+}
+
+.hostel-management .search-input:focus {
+  outline: none;
+  border-color: var(--hostel-brown);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(139, 107, 74, 0.2);
+}
+
+.hostel-management .filter-buttons {
+  display: flex;
+  gap: 10px;
+  background: rgba(26, 26, 26, 0.8);
+  padding: 8px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hostel-management .filter-btn {
+  padding: 12px 25px;
+  border: none;
+  background: transparent;
+  border-radius: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--hostel-lighter-grey);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hostel-management .filter-btn.active {
+  background: var(--hostel-gradient-brown);
+  color: var(--hostel-white);
+  box-shadow: 0 5px 15px rgba(139, 107, 74, 0.3);
+}
+
+.hostel-management .filter-btn:hover:not(.active) {
+  background: rgba(139, 107, 74, 0.1);
+  color: var(--hostel-light-brown);
+}
+
+/* Hostels Grid - Scoped */
+.hostel-management .hostels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 25px;
+  animation: fadeInUp 0.6s ease;
+  padding: 0 5px;
+}
+
+/* Hostel Card - Scoped */
+.hostel-management .hostel-card {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 1px solid rgba(139, 107, 74, 0.2);
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: fit-content;
+}
+
+.hostel-management .hostel-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(139, 107, 74, 0.3);
+  border-color: var(--hostel-brown);
+}
+
+.hostel-management .hostel-card.male {
+  border-top: 4px solid #667eea;
+}
+
+.hostel-management .hostel-card.female {
+  border-top: 4px solid #E91E63;
+}
+
+/* Image Section - Scoped */
+.hostel-management .hostel-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.hostel-management .hostel-main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.hostel-management .hostel-card:hover .hostel-main-image {
+  transform: scale(1.05);
+}
+
+.hostel-management .hostel-placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(139, 107, 74, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hostel-management .placeholder-icon {
+  font-size: 4rem;
+  opacity: 0.3;
+}
+
+.hostel-management .hostel-badges {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.hostel-management .type-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+}
+
+.hostel-management .type-badge.male {
+  background: rgba(102, 126, 234, 0.9);
+}
+
+.hostel-management .type-badge.female {
+  background: rgba(233, 30, 99, 0.9);
+}
+
+.hostel-management .video-available-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(255, 193, 7, 0.9);
+  color: #1a1a1a;
+}
+
+/* Content Section - Scoped */
+.hostel-management .hostel-card-content {
+  flex: 1;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hostel-management .hostel-header-info {
+  text-align: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(139, 107, 74, 0.1);
+}
+
+.hostel-management .hostel-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--hostel-white);
+  margin: 0 0 5px 0;
+}
+
+.hostel-management .hostel-code {
+  font-size: 0.9rem;
+  color: var(--hostel-lighter-grey);
+  margin: 0;
+}
+
+/* Stats Grid - Scoped */
+.hostel-management .hostel-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.hostel-management .stat-box {
+  background: rgba(139, 107, 74, 0.1);
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.hostel-management .stat-box:hover {
+  background: rgba(139, 107, 74, 0.15);
+  transform: translateY(-2px);
+}
+
+.hostel-management .stat-box.highlight {
+  background: rgba(76, 175, 80, 0.15);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.hostel-management .stat-icon {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.hostel-management .stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.hostel-management .stat-number {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--hostel-white);
+}
+
+.hostel-management .stat-label {
+  font-size: 0.75rem;
+  color: var(--hostel-lighter-grey);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Warden Section - Scoped */
+.hostel-management .warden-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 15px;
+}
+
+.hostel-management .warden-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--hostel-gradient-brown);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.hostel-management .warden-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hostel-management .warden-name {
+  font-weight: 600;
+  color: var(--hostel-white);
+  font-size: 0.95rem;
+}
+
+.hostel-management .warden-role {
+  font-size: 0.8rem;
+  color: var(--hostel-lighter-grey);
+}
+
+/* Location Section - Scoped */
+.hostel-management .location-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 12px;
+  color: var(--hostel-lighter-grey);
+  font-size: 0.9rem;
+}
+
+.hostel-management .location-icon {
+  font-size: 1.1rem;
+}
+
+/* Occupancy Section - Scoped */
+.hostel-management .occupancy-section {
+  margin-top: auto;
+}
+
+.hostel-management .occupancy-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: var(--hostel-lighter-grey);
+}
+
+.hostel-management .occupancy-percent {
+  font-weight: 700;
+  color: var(--hostel-light-brown);
+}
+
+.hostel-management .occupancy-bar-wrapper {
+  width: 100%;
+  height: 8px;
+  background: rgba(139, 107, 74, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.hostel-management .occupancy-bar-fill {
+  height: 100%;
+  background: var(--hostel-gradient-brown);
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+.hostel-management .occupancy-text {
+  font-size: 0.75rem;
+  color: var(--hostel-lighter-grey);
+  text-align: center;
+  margin: 0;
+}
+
+/* Actions Section - Scoped */
+.hostel-management .hostel-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(139, 107, 74, 0.1);
+}
+
+.hostel-management .action-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hostel-management .action-button.view {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
+.hostel-management .action-button.view:hover {
+  background: rgba(102, 126, 234, 0.2);
+  transform: translateY(-2px);
+}
+
+.hostel-management .action-button.edit {
+  background: rgba(255, 193, 7, 0.1);
+  color: #FFC107;
+}
+
+.hostel-management .action-button.edit:hover {
+  background: rgba(255, 193, 7, 0.2);
+  transform: translateY(-2px);
+}
+
+.hostel-management .action-button.delete {
+  background: rgba(244, 67, 54, 0.1);
+  color: #F44336;
+  flex: 0.5;
+}
+
+.hostel-management .action-button.delete:hover {
+  background: rgba(244, 67, 54, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Loading and Empty States - Scoped */
+.hostel-management .loading-state,
+.hostel-management .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: var(--hostel-lighter-grey);
+  gap: 20px;
+}
+
+.hostel-management .loader {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(139, 107, 74, 0.1);
+  border-top-color: var(--hostel-brown);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.hostel-management .empty-icon {
+  font-size: 4rem;
+  opacity: 0.3;
+}
+
+/* Modal Styles - Scoped */
+.hostel-management .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.hostel-management .modal-content {
+  background: var(--hostel-dark-grey);
+  border-radius: 30px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  animation: modalFadeIn 0.3s ease;
+  border: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.hostel-management .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  border-bottom: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.hostel-management .modal-header h2 {
+  margin: 0;
+  color: var(--hostel-white);
+  font-size: 1.8rem;
+}
+
+.hostel-management .modal-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(139, 107, 74, 0.1);
+  color: var(--hostel-white);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hostel-management .modal-close:hover {
+  background: rgba(139, 107, 74, 0.2);
+  transform: rotate(90deg);
+}
+
+/* Form Styles - Scoped */
+.hostel-management .hostel-form {
+  padding: 30px;
+}
+
+.hostel-management .form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.hostel-management .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hostel-management .form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.hostel-management .form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--hostel-light-brown);
+  margin-bottom: 0;
+}
+
+.hostel-management .form-group input,
+.hostel-management .form-group select,
+.hostel-management .form-group textarea {
+  width: 100%;
+  padding: 15px 20px;
+  border: 2px solid rgba(139, 107, 74, 0.2);
+  border-radius: 15px;
+  font-size: 15px;
+  background: rgba(26, 26, 26, 0.5);
+  color: var(--hostel-white);
+  transition: all 0.3s ease;
+}
+
+.hostel-management .form-group input:focus,
+.hostel-management .form-group select:focus,
+.hostel-management .form-group textarea:focus {
+  outline: none;
+  border-color: var(--hostel-brown);
+  background: rgba(26, 26, 26, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(139, 107, 74, 0.2);
+}
+
+.hostel-management .form-group input.error,
+.hostel-management .form-group select.error,
+.hostel-management .form-group textarea.error {
+  border-color: #F44336;
+}
+
+.hostel-management .error-text {
+  font-size: 12px;
+  color: #F44336;
+  margin-top: 5px;
+}
+
+.hostel-management .helper-text {
+  font-size: 12px;
+  color: var(--hostel-lighter-grey);
+  margin-top: 5px;
+}
+
+.hostel-management .disabled-input {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ENHANCED File Upload Styles - Complete Fix */
+.hostel-management .file-upload-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hostel-management .file-input {
+  position: absolute;
+  left: -9999px;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.hostel-management .file-upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 40px 20px;
+  background: rgba(26, 26, 26, 0.5);
+  border: 2px dashed rgba(139, 107, 74, 0.4);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hostel-management .file-upload-label:hover {
+  background: rgba(139, 107, 74, 0.1);
+  border-color: var(--hostel-brown);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(139, 107, 74, 0.2);
+}
+
+.hostel-management .file-upload-label:active {
+  transform: translateY(0);
+}
+
+.hostel-management .upload-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 10px;
+  opacity: 0.7;
+  color: var(--hostel-light-brown);
+}
+
+.hostel-management .file-upload-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--hostel-lighter-grey);
+}
+
+.hostel-management .file-upload-text strong {
+  color: var(--hostel-light-brown);
+  font-size: 16px;
+}
+
+.hostel-management .file-upload-text small {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* File Selected State */
+.hostel-management .file-selected {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 20px;
+  background: rgba(139, 107, 74, 0.1);
+  border: 2px solid rgba(139, 107, 74, 0.3);
+  border-radius: 15px;
+  margin-top: 10px;
+}
+
+.hostel-management .file-selected-icon {
+  font-size: 1.5rem;
+  color: var(--hostel-light-brown);
+}
+
+.hostel-management .file-selected-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.hostel-management .file-selected-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--hostel-white);
+  word-break: break-all;
+}
+
+.hostel-management .file-selected-size {
+  font-size: 12px;
+  color: var(--hostel-lighter-grey);
+}
+
+/* File Preview Styles */
+.hostel-management .image-preview,
+.hostel-management .video-preview {
+  position: relative;
+  margin-top: 20px;
+  border-radius: 15px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.hostel-management .image-preview img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  display: block;
+}
+
+.hostel-management .video-preview {
+  padding: 20px;
+  background: rgba(26, 26, 26, 0.8);
+}
+
+.hostel-management .video-preview video {
+  width: 100%;
+  max-height: 300px;
+  border-radius: 10px;
+  display: block;
+}
+
+.hostel-management .remove-file {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(244, 67, 54, 0.9);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hostel-management .remove-file:hover {
+  transform: scale(1.1) rotate(90deg);
+  background: #F44336;
+  box-shadow: 0 6px 15px rgba(244, 67, 54, 0.4);
+}
+
+/* Progress Bar */
+.hostel-management .upload-progress {
+  margin-top: 25px;
+  padding: 20px;
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 15px;
+}
+
+.hostel-management .progress-bar {
+  height: 10px;
+  background: rgba(139, 107, 74, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.hostel-management .progress-fill {
+  height: 100%;
+  background: var(--hostel-gradient-brown);
+  transition: width 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.hostel-management .progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.hostel-management .progress-text {
+  font-size: 14px;
+  color: var(--hostel-lighter-grey);
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Form Actions */
+.hostel-management .form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.hostel-management .btn-cancel,
+.hostel-management .btn-submit {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hostel-management .btn-cancel {
+  background: rgba(139, 107, 74, 0.1);
+  color: var(--hostel-white);
+}
+
+.hostel-management .btn-cancel:hover {
+  background: rgba(139, 107, 74, 0.2);
+}
+
+.hostel-management .btn-submit {
+  background: var(--hostel-gradient-brown);
+  color: white;
+  min-width: 150px;
+}
+
+.hostel-management .btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(139, 107, 74, 0.3);
+}
+
+.hostel-management .btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* View Modal Specific */
+.hostel-management .view-modal {
+  max-width: 800px;
+}
+
+.hostel-management .hostel-details {
+  padding: 30px;
+}
+
+.hostel-management .details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.hostel-management .detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hostel-management .detail-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.hostel-management .detail-label {
+  font-size: 13px;
+  color: var(--hostel-lighter-grey);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hostel-management .detail-value {
+  font-size: 16px;
+  color: var(--hostel-white);
+  font-weight: 500;
+}
+
+.hostel-management .detail-value.highlight {
+  color: var(--hostel-light-brown);
+  font-weight: 700;
+}
+
+/* Room Stats */
+.hostel-management .room-stats {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.hostel-management .room-stats h3 {
+  margin: 0 0 20px 0;
+  color: var(--hostel-white);
+}
+
+.hostel-management .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.hostel-management .stat-card {
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid rgba(139, 107, 74, 0.1);
+}
+
+.hostel-management .stat-card.available {
+  background: rgba(76, 175, 80, 0.1);
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.hostel-management .stat-card.full {
+  background: rgba(244, 67, 54, 0.1);
+  border-color: rgba(244, 67, 54, 0.3);
+}
+
+.hostel-management .stat-card.maintenance {
+  background: rgba(255, 193, 7, 0.1);
+  border-color: rgba(255, 193, 7, 0.3);
+}
+
+.hostel-management .stat-card.occupied {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+/* Modal Actions */
+.hostel-management .modal-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.hostel-management .btn-view-video,
+.hostel-management .btn-view-rooms,
+.hostel-management .btn-edit {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hostel-management .btn-view-video {
+  background: rgba(233, 30, 99, 0.1);
+  color: #E91E63;
+}
+
+.hostel-management .btn-view-rooms {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
+.hostel-management .btn-edit {
+  background: rgba(255, 193, 7, 0.1);
+  color: #FFC107;
+}
+
+.hostel-management .btn-view-video:hover,
+.hostel-management .btn-view-rooms:hover,
+.hostel-management .btn-edit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Video Modal */
+.hostel-management .video-modal {
+  max-width: 900px;
+}
+
+.hostel-management .video-container {
+  padding: 20px;
+}
+
+.hostel-management .video-container video {
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .hostel-management .hostels-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .hostel-management {
+    padding: 20px;
+  }
+  
+  .hostel-management .section-header {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  
+  .hostel-management .controls-section {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .hostel-management .search-box {
+    min-width: 100%;
+  }
+  
+  .hostel-management .hostels-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .hostel-management .hostel-card {
+    min-height: 550px;
+  }
+  
+  .hostel-management .modal-content {
+    width: 95%;
+    margin: 10px;
+  }
+  
+  .hostel-management .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .hostel-management .file-upload-label {
+    padding: 30px 15px;
+  }
+  
+  .hostel-management .upload-icon {
+    font-size: 2rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Custom Scrollbar for Modal */
+.hostel-management .modal-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.hostel-management .modal-content::-webkit-scrollbar-track {
+  background: rgba(139, 107, 74, 0.1);
+  border-radius: 5px;
+}
+
+.hostel-management .modal-content::-webkit-scrollbar-thumb {
+  background: rgba(139, 107, 74, 0.5);
+  border-radius: 5px;
+}
+
+.hostel-management .modal-content::-webkit-scrollbar-thumb:hover {
+  background: var(--hostel-brown);
+}
+
+/* Dark Theme Select Options */
+.hostel-management select option {
+  background: var(--hostel-dark-grey);
+  color: var(--hostel-white);
+}
+
+/* Fix File Input Click Area */
+.hostel-management input[type="file"]::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.hostel-management input[type="file"]::before {
+  content: '';
+  display: inline-block;
+  width: 200px;
+  height: 60px;
+  cursor: pointer;
+}

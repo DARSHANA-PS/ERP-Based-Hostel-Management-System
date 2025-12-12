@@ -1,0 +1,430 @@
+/* frontend/src/components/auth/WardenRegistration.css */
+@import './auth-animations.css';
+
+/* Premium Warden Registration Page */
+.warden-registration-page {
+  min-height: 100vh;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background Elements with Dark Theme */
+.warden-bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.warden-bg-gradient {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(139, 107, 74, 0.03) 0%,
+    var(--black) 50%,
+    rgba(166, 124, 82, 0.03) 100%
+  );
+}
+
+.warden-pattern {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.02;
+  background-image: 
+    repeating-linear-gradient(45deg, transparent, transparent 35px, var(--brown) 35px, var(--brown) 70px),
+    repeating-linear-gradient(-45deg, transparent, transparent 35px, var(--light-brown) 35px, var(--light-brown) 70px);
+  animation: pattern-slide 80s linear infinite;
+}
+
+.warden-shapes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.warden-shapes .shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.15;
+  animation: float-premium 30s infinite ease-in-out;
+}
+
+.warden-shapes .shape-1 {
+  width: 600px;
+  height: 600px;
+  background: var(--gradient-brown);
+  top: -300px;
+  right: -300px;
+}
+
+.warden-shapes .shape-2 {
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, var(--light-brown) 0%, transparent 70%);
+  bottom: -250px;
+  left: -250px;
+  animation-duration: 35s;
+  animation-direction: reverse;
+}
+
+.warden-shapes .shape-3 {
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, var(--dark-brown) 0%, transparent 70%);
+  top: 50%;
+  left: 20%;
+  animation-duration: 40s;
+}
+
+/* Navigation Enhanced */
+.warden-nav {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 40px;
+  animation: fadeInDown 1s ease;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  background: rgba(26, 26, 26, 0.9);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--brown);
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 8px 20px rgba(139, 107, 74, 0.2);
+}
+
+.nav-btn:hover {
+  background: var(--gradient-brown);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(139, 107, 74, 0.3);
+}
+
+/* Main Container */
+.warden-container {
+  position: relative;
+  z-index: 10;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 40px 40px;
+}
+
+/* Card Enhanced */
+.warden-card {
+  background: rgba(26, 26, 26, 0.9);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 40px;
+  padding: 60px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(139, 107, 74, 0.2);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Card Glow Effect */
+.warden-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(139, 107, 74, 0.1) 0%, transparent 70%);
+  animation: rotate-gradient 30s linear infinite;
+}
+
+/* Header Enhanced */
+.warden-header {
+  text-align: center;
+  margin-bottom: 50px;
+  position: relative;
+  z-index: 2;
+}
+
+.header-icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 30px;
+  background: var(--gradient-brown);
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  box-shadow: 0 20px 40px rgba(139, 107, 74, 0.3);
+  animation: icon-float 3s ease-in-out infinite;
+}
+
+.warden-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 10px;
+  letter-spacing: -1px;
+}
+
+.gradient-text {
+  background: var(--gradient-brown);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.warden-subtitle {
+  font-size: 1.2rem;
+  color: var(--lighter-grey);
+  font-weight: 400;
+}
+
+/* Form Sections */
+.form-section {
+  margin-bottom: 50px;
+  position: relative;
+  z-index: 2;
+}
+
+.section-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(139, 107, 74, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title::before {
+  content: '';
+  width: 4px;
+  height: 24px;
+  background: var(--gradient-brown);
+  border-radius: 2px;
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.form-field {
+  position: relative;
+}
+
+.form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--light-brown);
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+.warden-form input,
+.warden-form select,
+.warden-form textarea {
+  width: 100%;
+  padding: 18px 20px;
+  border: 2px solid rgba(139, 107, 74, 0.2);
+  border-radius: 20px;
+  font-size: 16px;
+  background: rgba(26, 26, 26, 0.5);
+  color: var(--white);
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.warden-form input:focus,
+.warden-form select:focus,
+.warden-form textarea:focus {
+  outline: none;
+  border-color: var(--brown);
+  background: rgba(45, 45, 45, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(139, 107, 74, 0.2);
+}
+
+.warden-form input.error,
+.warden-form select.error {
+  border-color: #e74c3c;
+}
+
+.error-text {
+  display: block;
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+/* File Upload Enhanced */
+.file-upload {
+  position: relative;
+}
+
+.file-upload input[type="file"] {
+  display: none;
+}
+
+.file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  background: rgba(139, 107, 74, 0.1);
+  border: 2px dashed var(--brown);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: var(--light-brown);
+}
+
+.file-label:hover {
+  background: rgba(139, 107, 74, 0.2);
+  border-style: solid;
+  transform: translateY(-2px);
+}
+
+.file-label span:first-child {
+  font-size: 30px;
+}
+
+.file-name {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--light-brown);
+  text-align: center;
+}
+
+/* Form Actions Enhanced */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  padding-top: 40px;
+  border-top: 2px solid rgba(139, 107, 74, 0.2);
+}
+
+.submit-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 60px;
+  background: var(--gradient-brown);
+  color: var(--white);
+  border: none;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 15px 30px rgba(139, 107, 74, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.7s;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(139, 107, 74, 0.4);
+}
+
+.submit-btn:hover::before {
+  left: 100%;
+}
+
+.submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .warden-nav {
+    padding: 20px;
+  }
+
+  .warden-container {
+    padding: 0 20px 20px;
+  }
+
+  .warden-card {
+    padding: 40px 30px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .warden-title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .header-icon {
+    width: 80px;
+    height: 80px;
+    font-size: 40px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .submit-btn {
+    width: 100%;
+  }
+}
+
+/* Animation specific to form fields */
+.form-field {
+  animation: fadeInUp 0.6s ease both;
+}
+
+.form-field:nth-child(1) { animation-delay: 0.1s; }
+.form-field:nth-child(2) { animation-delay: 0.2s; }
+.form-field:nth-child(3) { animation-delay: 0.3s; }
+.form-field:nth-child(4) { animation-delay: 0.4s; }
+.form-field:nth-child(5) { animation-delay: 0.5s; }

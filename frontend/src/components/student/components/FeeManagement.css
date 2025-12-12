@@ -1,0 +1,571 @@
+/* Student Fee Management Styles */
+.student-fee-management {
+  padding: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header */
+.fee-header {
+  margin-bottom: 40px;
+}
+
+.fee-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #8B6B4A 0%, #A67C52 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.fee-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Notifications */
+.fee-notifications {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.fee-notification {
+  background: rgba(255, 193, 7, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  border-radius: 12px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #FFC107;
+}
+
+.notif-icon {
+  font-size: 1.2rem;
+}
+
+.notif-date {
+  margin-left: auto;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Summary Cards */
+.fee-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.summary-card {
+  background: rgba(139, 107, 74, 0.08);
+  border: 1px solid rgba(139, 107, 74, 0.2);
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(139, 107, 74, 0.2);
+  background: rgba(139, 107, 74, 0.12);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(139, 107, 74, 0.1);
+  border-radius: 15px;
+}
+
+.card-info h3 {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.card-info p {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--white);
+  margin: 0;
+}
+
+/* Color variations for cards */
+.summary-card.total {
+  border-color: rgba(33, 150, 243, 0.3);
+}
+
+.summary-card.paid {
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.summary-card.pending {
+  border-color: rgba(255, 152, 0, 0.3);
+}
+
+.summary-card.due-date {
+  border-color: rgba(156, 39, 176, 0.3);
+}
+
+/* Payment Section */
+.payment-section {
+  background: rgba(26, 26, 26, 0.8);
+  border-radius: 25px;
+  padding: 30px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.payment-section h2 {
+  color: var(--white);
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+}
+
+.payment-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+/* QR Code Section */
+.qr-section {
+  text-align: center;
+  padding: 20px;
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 15px;
+}
+
+.qr-section h3 {
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+.qr-code {
+  width: 200px;
+  height: 200px;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 0 auto 15px;
+}
+
+.upi-id {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Bank Details */
+.bank-details {
+  padding: 20px;
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 15px;
+}
+
+.bank-details h3 {
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(139, 107, 74, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-row span:first-child {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Payment Action */
+.payment-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.btn-pay-now {
+  background: linear-gradient(135deg, #8B6B4A 0%, #A67C52 100%);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(139, 107, 74, 0.3);
+}
+
+.btn-pay-now:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(139, 107, 74, 0.4);
+}
+
+/* Tabs */
+.fee-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  background: rgba(139, 107, 74, 0.05);
+  padding: 10px;
+  border-radius: 15px;
+  width: fit-content;
+}
+
+.tab-btn {
+  padding: 12px 25px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+  background: rgba(139, 107, 74, 0.8);
+  color: white;
+}
+
+/* Current Fee Details */
+.current-fee-details {
+  margin-bottom: 30px;
+}
+
+.detail-card {
+  background: rgba(26, 26, 26, 0.8);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.detail-card h3 {
+  color: var(--white);
+  margin-bottom: 25px;
+  font-size: 1.3rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+}
+
+.detail-item label {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.detail-item p {
+  color: var(--white);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
+}
+
+/* Payment History */
+.payment-history {
+  background: rgba(26, 26, 26, 0.8);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.empty-history {
+  text-align: center;
+  padding: 60px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.history-table {
+  overflow-x: auto;
+}
+
+.history-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.history-table th {
+  text-align: left;
+  padding: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  border-bottom: 2px solid rgba(139, 107, 74, 0.2);
+}
+
+.history-table td {
+  padding: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(139, 107, 74, 0.1);
+}
+
+.history-table tr:hover {
+  background: rgba(139, 107, 74, 0.05);
+}
+
+.btn-download {
+  background: rgba(33, 150, 243, 0.2);
+  color: #2196F3;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-download:hover {
+  background: #2196F3;
+  color: white;
+}
+
+/* Payment Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background: rgba(26, 26, 26, 0.95);
+  border-radius: 25px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+  border: 1px solid rgba(139, 107, 74, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px;
+  border-bottom: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.modal-header h2 {
+  color: var(--white);
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  color: #F44336;
+}
+
+/* Payment Form */
+.payment-form {
+  padding: 30px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 15px;
+  background: rgba(139, 107, 74, 0.05);
+  border: 1px solid rgba(139, 107, 74, 0.2);
+  border-radius: 10px;
+  color: var(--white);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: rgba(139, 107, 74, 0.5);
+  background: rgba(139, 107, 74, 0.1);
+}
+
+.file-hint {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.btn-cancel,
+.btn-submit {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel {
+  background: rgba(139, 107, 74, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.btn-cancel:hover {
+  background: rgba(139, 107, 74, 0.2);
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #8B6B4A 0%, #A67C52 100%);
+  color: white;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(139, 107, 74, 0.3);
+}
+
+/* Loading State */
+.fee-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(139, 107, 74, 0.2);
+  border-top: 4px solid #8B6B4A;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Utilities */
+.capitalize {
+  text-transform: capitalize;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .fee-summary-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .payment-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .fee-tabs {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .history-table {
+    font-size: 0.9rem;
+  }
+  
+  .modal-content {
+    margin: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fee-summary-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .fee-header h1 {
+    font-size: 2rem;
+  }
+}

@@ -1,0 +1,411 @@
+/* frontend/src/components/auth/RoleSelection.css */
+@import './auth-animations.css';
+
+/* Premium Role Selection Page with Dark Theme */
+.role-selection-page {
+  min-height: 100vh;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Premium Background Effects */
+.role-bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.role-bg-gradient {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--dark-grey) 0%, var(--black) 50%, var(--dark-grey) 100%);
+}
+
+.role-bg-pattern {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background-image: 
+    radial-gradient(circle at 20% 50%, var(--brown) 0%, transparent 1%),
+    radial-gradient(circle at 80% 50%, var(--light-brown) 0%, transparent 1%),
+    radial-gradient(circle at 50% 20%, var(--dark-brown) 0%, transparent 1%);
+  background-size: 100px 100px;
+  opacity: 0.05;
+  animation: pattern-slide 60s linear infinite;
+}
+
+/* Animated Orbs with Parallax */
+.floating-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.15;
+  will-change: transform;
+  animation: float-premium 30s infinite ease-in-out;
+}
+
+.orb-1 {
+  width: 600px;
+  height: 600px;
+  background: var(--gradient-brown);
+  top: -300px;
+  right: -300px;
+}
+
+.orb-2 {
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, var(--light-brown) 0%, var(--brown) 100%);
+  bottom: -250px;
+  left: -250px;
+  animation-direction: reverse;
+  animation-duration: 35s;
+}
+
+.orb-3 {
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, var(--dark-brown) 0%, var(--brown) 100%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-duration: 40s;
+}
+
+/* Home Button Enhanced */
+.home-button {
+  position: fixed;
+  top: 40px;
+  left: 40px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 35px;
+  background: rgba(26, 26, 26, 0.9);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--brown);
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 10px 30px rgba(139, 107, 74, 0.2);
+}
+
+.home-button:hover {
+  background: var(--gradient-brown);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(139, 107, 74, 0.3);
+}
+
+.home-icon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.home-button:hover .home-icon {
+  transform: translateX(-5px);
+}
+
+/* Main Container */
+.role-container {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Header Enhanced */
+.role-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.role-title {
+  font-size: clamp(3.5rem, 7vw, 5.5rem);
+  font-weight: 900;
+  color: var(--white);
+  margin-bottom: 20px;
+  letter-spacing: -2px;
+  line-height: 1.1;
+}
+
+.gradient-text {
+  background: var(--gradient-brown);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  position: relative;
+}
+
+.gradient-text::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient-brown);
+  border-radius: 2px;
+  animation: shimmer 2s infinite;
+}
+
+.role-subtitle {
+  font-size: 1.3rem;
+  color: var(--lighter-grey);
+  font-weight: 300;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Role Cards Container */
+.role-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 60px;
+  margin-bottom: 60px;
+  width: 100%;
+  max-width: 1000px;
+}
+
+/* Premium Role Card */
+.role-card {
+  position: relative;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.role-card-inner {
+  position: relative;
+  background: rgba(26, 26, 26, 0.9);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(139, 107, 74, 0.2);
+  border-radius: 40px;
+  padding: 60px 50px;
+  text-align: center;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  overflow: hidden;
+}
+
+.role-card:hover .role-card-inner {
+  transform: translateY(-15px) rotateX(-5deg) rotateY(5deg);
+  box-shadow: 0 35px 70px rgba(139, 107, 74, 0.4);
+  border-color: var(--brown);
+}
+
+/* Card Hover Effect */
+.card-hover-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, var(--card-color, var(--brown)), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.role-card:hover .card-hover-effect {
+  opacity: 0.05;
+}
+
+/* Icon Wrapper Enhanced */
+.role-icon-wrapper {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.role-icon {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  transition: all 0.4s ease;
+}
+
+.role-icon span {
+  font-size: 60px;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+}
+
+.icon-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 40px;
+  filter: blur(30px);
+  opacity: 0.4;
+  transition: all 0.4s ease;
+}
+
+.role-card:hover .icon-glow {
+  width: 150px;
+  height: 150px;
+  opacity: 0.6;
+}
+
+.role-card:hover .role-icon {
+  transform: translateY(-10px) scale(1.1) rotate(5deg);
+}
+
+/* Card Content */
+.role-card-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.role-card-description {
+  font-size: 1.1rem;
+  color: var(--lighter-grey);
+  line-height: 1.6;
+  margin-bottom: 40px;
+  font-weight: 400;
+}
+
+/* Card Footer Enhanced */
+.role-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.register-text {
+  position: relative;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.role-card:hover .register-text {
+  border-bottom-color: var(--card-color, var(--brown));
+}
+
+.arrow-icon {
+  font-size: 24px;
+  transition: transform 0.3s ease;
+  color: var(--card-color, var(--brown));
+}
+
+.role-card:hover .arrow-icon {
+  transform: translateX(8px);
+}
+
+/* Footer Enhanced */
+.role-footer {
+  text-align: center;
+  color: var(--lighter-grey);
+  font-size: 1.1rem;
+}
+
+.role-footer p {
+  margin-bottom: 10px;
+}
+
+.login-link {
+  background: none;
+  border: none;
+  color: var(--light-brown);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: all 0.3s ease;
+}
+
+.login-link:hover {
+  color: var(--brown);
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .role-cards-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .role-card-inner {
+    padding: 50px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-button {
+    top: 20px;
+    left: 20px;
+    padding: 12px 25px;
+    font-size: 14px;
+  }
+
+  .role-container {
+    padding: 20px;
+  }
+
+  .role-header {
+    margin-bottom: 60px;
+  }
+
+  .role-title {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+
+  .role-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .role-card-inner {
+    padding: 40px 30px;
+  }
+
+  .role-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .role-icon span {
+    font-size: 50px;
+  }
+
+  .role-card-title {
+    font-size: 1.8rem;
+  }
+}

@@ -1,0 +1,300 @@
+/* Room Details Container */
+.room-details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Room Header */
+.room-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.room-header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+
+.room-header p {
+  font-size: 1.1rem;
+  color: var(--lighter-grey);
+}
+
+/* Room Info Card */
+.room-info-card {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 30px;
+  border: 1px solid rgba(139, 107, 74, 0.2);
+  margin-bottom: 30px;
+}
+
+.room-number-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(139, 107, 74, 0.2);
+}
+
+.room-number-display h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 5px;
+}
+
+.room-type {
+  font-size: 1.1rem;
+  color: var(--light-brown);
+}
+
+.room-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  border-radius: 20px;
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #4CAF50;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.room-details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.detail-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.detail-box:hover {
+  background: rgba(139, 107, 74, 0.1);
+  transform: translateY(-2px);
+}
+
+.detail-icon {
+  font-size: 2rem;
+}
+
+.detail-label {
+  font-size: 0.9rem;
+  color: var(--lighter-grey);
+  margin: 0 0 5px 0;
+}
+
+.detail-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0;
+}
+
+/* Facilities Card */
+.facilities-card {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 30px;
+  border: 1px solid rgba(139, 107, 74, 0.2);
+  margin-bottom: 30px;
+}
+
+.facilities-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 25px;
+}
+
+.facilities-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.facility {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.facility:hover {
+  background: rgba(139, 107, 74, 0.1);
+  transform: translateX(5px);
+}
+
+.facility-icon {
+  font-size: 1.5rem;
+}
+
+.facility span:last-child {
+  font-size: 0.95rem;
+  color: var(--lighter-grey);
+}
+
+/* Roommates Card */
+.roommates-card {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 30px;
+  border: 1px solid rgba(139, 107, 74, 0.2);
+  margin-bottom: 30px;
+}
+
+.roommates-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 25px;
+}
+
+.roommates-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.roommate-item {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background: rgba(139, 107, 74, 0.05);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.roommate-item:hover {
+  background: rgba(139, 107, 74, 0.1);
+  transform: translateY(-2px);
+}
+
+.roommate-avatar {
+  width: 60px;
+  height: 60px;
+  background: var(--gradient-brown);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.roommate-info h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0 0 5px 0;
+}
+
+.roommate-info p {
+  font-size: 0.9rem;
+  color: var(--lighter-grey);
+  margin: 3px 0;
+}
+
+.roommate-info .contact {
+  color: var(--light-brown);
+  margin-top: 8px;
+}
+
+/* Room Actions */
+.room-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  background: rgba(26, 26, 26, 0.8);
+  border: 2px solid rgba(139, 107, 74, 0.2);
+  border-radius: 25px;
+  color: var(--white);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  background: rgba(139, 107, 74, 0.1);
+  border-color: var(--brown);
+  transform: translateY(-3px);
+}
+
+.action-btn span {
+  font-size: 1.3rem;
+}
+
+/* Loading State */
+.room-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .room-header h1 {
+    font-size: 2rem;
+  }
+  
+  .room-details-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .roommates-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .room-actions {
+    flex-direction: column;
+  }
+  
+  .action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,407 @@
+/* frontend/src/components/auth/GenderSelection.css */
+@import './auth-animations.css';
+
+/* Premium Gender Selection Page with Dark Theme */
+.gender-selection-page {
+  min-height: 100vh;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Background Container */
+.gender-bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.gender-bg-gradient {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at top right, rgba(139, 107, 74, 0.1) 0%, transparent 40%),
+    radial-gradient(ellipse at bottom left, rgba(166, 124, 82, 0.1) 0%, transparent 40%),
+    linear-gradient(135deg, var(--black) 0%, var(--dark-grey) 50%, var(--black) 100%);
+}
+
+/* Animated Shapes with Parallax */
+.animated-shapes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.15;
+  animation: float-premium 30s infinite ease-in-out;
+  will-change: transform;
+}
+
+.shape-1 {
+  width: 600px;
+  height: 600px;
+  background: var(--gradient-brown);
+  top: -300px;
+  left: -300px;
+}
+
+.shape-2 {
+  width: 700px;
+  height: 700px;
+  background: linear-gradient(135deg, var(--light-brown) 0%, transparent 70%);
+  bottom: -350px;
+  right: -350px;
+  animation-direction: reverse;
+  animation-duration: 35s;
+}
+
+.shape-3 {
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, var(--dark-brown) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-duration: 40s;
+}
+
+/* Navigation Header */
+.nav-header {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+  animation: fadeInDown 1s ease;
+}
+
+.back-button,
+.home-nav-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 35px;
+  background: rgba(26, 26, 26, 0.9);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--brown);
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 10px 30px rgba(139, 107, 74, 0.2);
+}
+
+.back-button:hover,
+.home-nav-button:hover {
+  background: var(--gradient-brown);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(139, 107, 74, 0.3);
+}
+
+.back-button span:first-child,
+.home-nav-button span:first-child {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.back-button:hover span:first-child {
+  transform: translateX(-5px);
+}
+
+/* Main Container */
+.gender-container {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Header Enhanced */
+.gender-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.gender-title {
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 900;
+  color: var(--white);
+  margin-bottom: 30px;
+  letter-spacing: -2px;
+  line-height: 1.1;
+}
+
+.gradient-text {
+  background: var(--gradient-brown);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  position: relative;
+}
+
+.gender-subtitle {
+  font-size: 1.3rem;
+  color: var(--lighter-grey);
+  font-weight: 300;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Cards Wrapper */
+.gender-cards-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 60px;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 60px;
+}
+
+/* Gender Card Enhanced */
+.gender-card {
+  position: relative;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.card-background {
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  opacity: 0.1;
+  transition: all 0.4s ease;
+  z-index: -1;
+}
+
+.gender-card:hover .card-background {
+  opacity: 0.15;
+  transform: scale(1.05);
+}
+
+.card-content {
+  position: relative;
+  background: rgba(26, 26, 26, 0.9);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 40px;
+  padding: 60px 40px;
+  text-align: center;
+  border: 1px solid rgba(139, 107, 74, 0.2);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  overflow: hidden;
+  z-index: 2;
+}
+
+.gender-card:hover .card-content {
+  transform: translateY(-15px) rotateX(-5deg) rotateY(5deg) translateZ(20px);
+  box-shadow: 0 35px 70px rgba(139, 107, 74, 0.4);
+  border-color: var(--brown);
+}
+
+/* Icon Container Enhanced */
+.icon-container {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.main-icon {
+  font-size: 80px;
+  display: block;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+  animation: icon-float 3s ease-in-out infinite;
+}
+
+.secondary-icon {
+  position: absolute;
+  top: -10px;
+  right: -20px;
+  font-size: 40px;
+  opacity: 0;
+  transform: scale(0) rotate(-45deg);
+  transition: all 0.4s ease;
+}
+
+.gender-card:hover .secondary-icon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* Card Text */
+.card-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+
+.card-description {
+  font-size: 1.1rem;
+  color: var(--lighter-grey);
+  margin-bottom: 35px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* Card Action Enhanced */
+.card-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.action-arrow {
+  font-size: 24px;
+  transition: transform 0.3s ease;
+  color: var(--light-brown);
+}
+
+.gender-card:hover .action-arrow {
+  transform: translateX(8px);
+}
+
+/* Card Glow Effect */
+.card-glow {
+  position: absolute;
+  inset: -3px;
+  border-radius: 40px;
+  opacity: 0;
+  filter: blur(25px);
+  transition: opacity 0.4s ease;
+  z-index: 1;
+}
+
+.gender-card:hover .card-glow {
+  opacity: 0.3;
+}
+
+/* Footer Enhanced */
+.gender-footer {
+  text-align: center;
+  color: var(--lighter-grey);
+  font-size: 1rem;
+}
+
+.support-link {
+  color: var(--light-brown);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.support-link:hover {
+  color: var(--brown);
+  text-decoration: underline;
+}
+
+/* Floating Particles */
+.gender-card::before,
+.gender-card::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--light-brown);
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+
+.gender-card:hover::before {
+  top: 20%;
+  left: 10%;
+  opacity: 0.6;
+  animation: particle-up 3s infinite;
+}
+
+.gender-card:hover::after {
+  bottom: 20%;
+  right: 10%;
+  opacity: 0.6;
+  animation: particle-up 3s infinite 1s;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .gender-cards-wrapper {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .card-content {
+    padding: 50px 35px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-header {
+    padding: 20px;
+  }
+
+  .back-button,
+  .home-nav-button {
+    padding: 12px 25px;
+    font-size: 14px;
+  }
+
+  .gender-container {
+    padding: 20px;
+  }
+
+  .gender-header {
+    margin-bottom: 60px;
+  }
+
+  .gender-title {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+
+  .gender-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .card-content {
+    padding: 45px 30px;
+  }
+
+  .main-icon {
+    font-size: 70px;
+  }
+
+  .secondary-icon {
+    font-size: 35px;
+  }
+
+  .card-title {
+    font-size: 1.8rem;
+  }
+}
