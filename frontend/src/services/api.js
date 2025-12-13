@@ -3,7 +3,7 @@
 // ==========================
 
 // Removes trailing slash & supports environment variable on Vercel
-const API_BASE_URL = 'https://appsail-50036818087.development.catalystappsail.in/api';
+const BASE_URL = "https://your-backend.onrender.com";
 
 
 // Helper function for API calls
