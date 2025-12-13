@@ -3,7 +3,8 @@
 // ==========================
 
 // Removes trailing slash & supports environment variable on Vercel
-const API_BASE_URL = "https://appsail-50036818087.development.catalystappsail.in/api";
+const API_BASE_URL = 'https://appsail-50036818087.development.catalystappsail.in/api';
+
 
 // Helper function for API calls
 const apiCall = async (endpoint, method = 'GET', data = null) => {
