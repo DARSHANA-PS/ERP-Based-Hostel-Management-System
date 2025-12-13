@@ -2,8 +2,8 @@
 // FIXED BASE URL FOR VERCEL + LOCALHOST
 // ==========================
 
-// Removes trailing slash & supports environment variable on Vercel
-const BASE_URL = "https://your-backend.onrender.com";
+// Read API URL from environment variable (Vercel / Local)
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 
 // Helper function for API calls
@@ -29,11 +29,11 @@ const apiCall = async (endpoint, method = 'GET', data = null) => {
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
     const result = await response.json();
-    
+
     if (!response.ok) {
       throw new Error(result.message || 'API call failed');
     }
-    
+
     return result;
   } catch (error) {
     console.error('API Error:', error);
@@ -42,7 +42,9 @@ const apiCall = async (endpoint, method = 'GET', data = null) => {
 };
 
 
-// Auth APIs
+// ==========================
+// AUTH APIs
+// ==========================
 export const authAPI = {
   login: (data) => apiCall('/auth/login', 'POST', data),
   registerStudent: (data) => apiCall('/auth/register/student', 'POST', data),
@@ -51,7 +53,9 @@ export const authAPI = {
 };
 
 
-// Admin APIs
+// ==========================
+// ADMIN APIs
+// ==========================
 export const adminAPI = {
   getPendingRegistrations: () => apiCall('/admin/pending-registrations'),
   approveStudent: (id) => apiCall(`/admin/approve/student/${id}`, 'PUT'),
@@ -64,24 +68,26 @@ export const adminAPI = {
 };
 
 
-// Student APIs
+// ==========================
+// STUDENT APIs
+// ==========================
 export const studentAPI = {
   getProfile: () => apiCall('/student/profile'),
   updateProfile: (data) => apiCall('/student/profile', 'PUT', data),
-  
+
   uploadPhoto: (formData) => {
     const config = {
       method: 'POST',
       headers: {}
     };
-    
+
     const token = localStorage.getItem('token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
-    
+
     config.body = formData;
-    
+
     return fetch(`${API_BASE_URL}/student/profile/photo`, config)
       .then(res => res.json());
   },
@@ -118,16 +124,21 @@ export const studentAPI = {
 };
 
 
-// Warden APIs
+// ==========================
+// WARDEN APIs
+// ==========================
 export const wardenAPI = {
   getProfile: () => apiCall('/warden/profile'),
   getStudents: () => apiCall('/warden/students'),
   getComplaints: () => apiCall('/warden/complaints'),
-  updateComplaintStatus: (id, status) => apiCall(`/warden/complaints/${id}`, 'PUT', { status }),
+  updateComplaintStatus: (id, status) =>
+    apiCall(`/warden/complaints/${id}`, 'PUT', { status }),
 };
 
 
-// Hostel APIs
+// ==========================
+// HOSTEL APIs
+// ==========================
 export const hostelAPI = {
   getAllHostels: () => apiCall('/hostels/all'),
   getHostelById: (id) => apiCall(`/hostels/${id}`),
@@ -168,7 +179,9 @@ export const hostelAPI = {
 };
 
 
-// Room APIs
+// ==========================
+// ROOM APIs
+// ==========================
 export const roomAPI = {
   getAllRooms: (params) => {
     const queryString = new URLSearchParams(params).toString();
@@ -177,27 +190,31 @@ export const roomAPI = {
   getRoomById: (id) => apiCall(`/rooms/${id}`),
   getRoomStudents: (roomId) => apiCall(`/rooms/${roomId}/students`),
   updateRoomStatus: (id, status) => apiCall(`/rooms/status/${id}`, 'PUT', { status }),
-  allocateStudent: (roomId, studentId) => apiCall(`/rooms/allocate/${roomId}`, 'POST', { studentId }),
-  deallocateStudent: (roomId, studentId) => apiCall(`/rooms/deallocate/${roomId}`, 'POST', { studentId }),
+  allocateStudent: (roomId, studentId) =>
+    apiCall(`/rooms/allocate/${roomId}`, 'POST', { studentId }),
+  deallocateStudent: (roomId, studentId) =>
+    apiCall(`/rooms/deallocate/${roomId}`, 'POST', { studentId }),
   getRoomStats: (hostelId) => apiCall(`/rooms/stats/${hostelId}`),
 };
 
 
-// Fee APIs
+// ==========================
+// FEE APIs
+// ==========================
 export const feeAPI = {
   createFeeStructure: (formData) => {
     const config = {
       method: 'POST',
       headers: {}
     };
-    
+
     const token = localStorage.getItem('token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
-    
+
     config.body = formData;
-    
+
     return fetch(`${API_BASE_URL}/fees/structure`, config)
       .then(res => res.json());
   },
@@ -213,7 +230,8 @@ export const feeAPI = {
   },
 
   getHostelFees: (hostelId) => apiCall(`/fees/hostel-fees/${hostelId}`),
-  verifyTransaction: (transactionId, data) => apiCall(`/fees/verify/${transactionId}`, 'PUT', data),
+  verifyTransaction: (transactionId, data) =>
+    apiCall(`/fees/verify/${transactionId}`, 'PUT', data),
 
   getMyFees: () => apiCall('/fees/my-fees'),
 
@@ -222,14 +240,14 @@ export const feeAPI = {
       method: 'POST',
       headers: {}
     };
-    
+
     const token = localStorage.getItem('token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
-    
+
     config.body = formData;
-    
+
     return fetch(`${API_BASE_URL}/fees/payment`, config)
       .then(res => res.json());
   },
