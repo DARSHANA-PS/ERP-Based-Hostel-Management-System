@@ -9,6 +9,9 @@ const path = require('path');
 // MongoDB connection helper
 const connectDB = require('./config/database');
 
+// Import utilities
+const createUploadDirectories = require('./utils/createDirectories');
+
 // Import routes
 const hostelRoutes = require('./routes/hostel.routes');
 const roomRoutes = require('./routes/room.routes');
@@ -16,9 +19,6 @@ const studentDashboardRoutes = require('./routes/student.dashboard.routes');
 const wardenDashboardRoutes = require('./routes/warden.dashboard.routes');
 const feeRoutes = require('./routes/fee.routes');
 const studentNotificationRoutes = require('./routes/student.notifications.routes');
-
-// Import utilities
-const createUploadDirectories = require('./utils/createDirectories');
 
 // Initialize app
 const app = express();
@@ -37,16 +37,7 @@ app.use('/api/student', studentDashboardRoutes);
 app.use('/api/warden', wardenDashboardRoutes);
 app.use('/api/fees', feeRoutes);
 
-// CONNECT DATABASE (ONLY HERE)
-connectDB().then(() => {
-  initializeAdmin();
-
-  // Start cron jobs
-  require('./utils/cronJobs');
-  console.log('✅ Cron jobs initialized');
-});
-
-// Import routes AFTER DB
+// Import routes AFTER initial middleware
 const authRoutes = require('./routes/auth.routes');
 const studentRoutes = require('./routes/student.routes');
 const wardenRoutes = require('./routes/warden.routes');
@@ -115,15 +106,30 @@ async function initializeAdmin() {
     } else {
       console.log('✅ Admin already exists');
     }
-_toggle;
   } catch (error) {
     console.error('❌ Admin init error:', error);
   }
 }
 
-// Start server
+// 🚀 START SERVER FIRST (RENDER SAFE)
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📦 MongoDB URI: ${process.env.MONGODB_URI ? 'LOADED' : 'NOT LOADED'}`);
+  console.log(
+    `📦 MongoDB URI: ${process.env.MONGODB_URI ? 'LOADED' : 'NOT LOADED'}`
+  );
+
+  // 🔗 Connect DB AFTER server is live
+  connectDB()
+    .then(() => {
+      console.log('✅ MongoDB connected');
+
+      // Init admin + cron AFTER DB
+      initializeAdmin();
+      require('./utils/cronJobs');
+      console.log('✅ Cron jobs initialized');
+    })
+    .catch((err) => {
+      console.error('❌ MongoDB connection failed:', err.message);
+    });
 });
