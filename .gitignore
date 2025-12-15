@@ -10,7 +10,7 @@ backend/uploads/
 uploads/
 
 # Env files
-*.env
+*.egit nv
 
 # Logs
 *.log
