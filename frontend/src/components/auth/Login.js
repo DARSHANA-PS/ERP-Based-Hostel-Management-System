@@ -1,115 +1,61 @@
+// frontend/src/components/auth/Login.js
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext'; // Correct path!
 import AOS from 'aos';
-import { authAPI } from '../../services/api';
 import './Login.css';
 
 const Login = () => {
-  const navigate = useNavigate();
+  // console.log('Login component: Rendering.'); // DEBUG LOG
+
+  // --- ALL HOOKS MUST BE CALLED UNCONDITIONALLY AT THE TOP ---
   const { role } = useParams();
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-    rememberMe: false
-  });
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const authContext = useAuth(); // Call useAuth() here
+  
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // Local loading for form submission
 
   useEffect(() => {
     AOS.refresh();
-  }, []);
+  }, [role]);
+  // --- END HOOKS SECTION ---
 
-  const getRoleConfig = () => {
-    switch (role) {
-      case 'student':
-        return {
-          title: 'Student Login',
-          icon: '🎓',
-          gradient: 'var(--gradient-primary)',
-          description: 'Access your hostel dashboard'
-        };
-      case 'warden':
-        return {
-          title: 'Warden Login',
-          icon: '🏫',
-          gradient: 'linear-gradient(135deg, #FF6B6B 0%, #FFA07A 100%)',
-          description: 'Manage hostel operations'
-        };
-      case 'admin':
-        return {
-          title: 'Admin Login',
-          icon: '👨‍💼',
-          gradient: 'linear-gradient(135deg, #0a0a0a 0%, #2a2a2a 100%)',
-          description: 'System administration panel'
-        };
-      default:
-        return {
-          title: 'Login',
-          icon: '🔐',
-          gradient: 'var(--gradient-primary)',
-          description: 'Sign in to your account'
-        };
-    }
-  };
-
-  const config = getRoleConfig();
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
-    // Clear error when user starts typing
-    if (error) setError('');
-  };
+  // Now, after all hooks are called, you can safely use conditional logic
+  if (!authContext) {
+    console.error('Login component: AuthContext is null. This component is likely not wrapped by AuthProvider.');
+    return <div>Error: Authentication context not available. Please ensure AuthProvider wraps this component.</div>;
+  }
+  
+  // Safely destructure from authContext
+  const { login, loading: authGlobalLoading } = authContext; // Renamed to authGlobalLoading to avoid confusion with local isLoading
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setError('');
-    
+    setIsLoading(true);
+    // console.log('Login component: Submitting form...'); // DEBUG LOG
+
     try {
-      const response = await authAPI.login({
-        username: formData.username,
-        password: formData.password,
-        role: role
-      });
-      
-      if (response.success) {
-        // Store token and user info
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
-        
-        // Store remember me preference
-        if (formData.rememberMe) {
-          localStorage.setItem('rememberMe', 'true');
-        }
-        
-        // Show success message
-        console.log('Login successful!');
-        
-        // Redirect based on role
-        switch(role) {
-          case 'admin':
-            navigate('/admin/dashboard');
-            break;
-          case 'student':
-            navigate('/student/dashboard');
-            break;
-          case 'warden':
-            navigate('/warden/dashboard');
-            break;
-          default:
-            navigate('/');
-        }
+      // The `login` function from AuthContext updates `authGlobalLoading`
+      const response = await login(role, username, password);
+      if (!response.success) {
+        setError(response.message);
       }
-    } catch (error) {
-      setError(error.message || 'Login failed. Please check your credentials and try again.');
-      console.error('Login error:', error);
+    } catch (err) {
+      setError(err.message || 'An unexpected error occurred during login.');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleRegisterClick = () => {
+    if (role === 'student') {
+      navigate('/register/student/gender');
+    } else if (role === 'warden') {
+      navigate('/register/warden');
     }
   };
 
@@ -118,20 +64,20 @@ const Login = () => {
       {/* Background Elements */}
       <div className="login-bg-container">
         <div className="login-bg-gradient"></div>
-        <div className="login-bg-shapes">
-          <div className="bg-shape bg-shape-1"></div>
-          <div className="bg-shape bg-shape-2"></div>
-          <div className="bg-shape bg-shape-3"></div>
+        <div className="login-floating-shapes">
+          <div className="floating-shape shape-1"></div>
+          <div className="floating-shape shape-2"></div>
+          <div className="floating-shape shape-3"></div>
         </div>
-        <div className="login-pattern"></div>
       </div>
 
       {/* Navigation */}
       <div className="login-nav">
-        <button 
-          className="nav-btn"
-          onClick={() => navigate('/')}
-        >
+        <button className="nav-btn" onClick={() => navigate(-1)}>
+          <span>←</span>
+          <span>Back</span>
+        </button>
+        <button className="nav-btn" onClick={() => navigate('/')}>
           <span>🏠</span>
           <span>Home</span>
         </button>
@@ -139,39 +85,15 @@ const Login = () => {
 
       {/* Main Content */}
       <div className="login-container">
-        <div className="login-card" data-aos="fade-up">
-          {/* Card Header */}
+        <div className="login-card" data-aos="zoom-in" data-aos-duration="800">
           <div className="login-header">
-            <div className="login-icon" style={{ background: config.gradient }}>
-              <span>{config.icon}</span>
-            </div>
-            <h1 className="login-title">{config.title}</h1>
-            <p className="login-description">{config.description}</p>
+            <h1 className="login-title">
+              {role.charAt(0).toUpperCase() + role.slice(1)}{' '}
+              <span className="gradient-text">Login</span>
+            </h1>
+            <p className="login-subtitle">Access your Hostel ERP Account</p>
           </div>
 
-          {/* Role Selector */}
-          <div className="role-tabs">
-            <button 
-              className={`role-tab ${role === 'student' ? 'active' : ''}`}
-              onClick={() => navigate('/login/student')}
-            >
-              Student
-            </button>
-            <button 
-              className={`role-tab ${role === 'warden' ? 'active' : ''}`}
-              onClick={() => navigate('/login/warden')}
-            >
-              Warden
-            </button>
-            <button 
-              className={`role-tab ${role === 'admin' ? 'active' : ''}`}
-              onClick={() => navigate('/login/admin')}
-            >
-              Admin
-            </button>
-          </div>
-
-          {/* Error Message */}
           {error && (
             <div className="error-message" data-aos="fade-down">
               <span className="error-icon">⚠️</span>
@@ -179,89 +101,53 @@ const Login = () => {
             </div>
           )}
 
-          {/* Login Form */}
-          <form className="login-form" onSubmit={handleSubmit}>
-            <div className="form-group">
+          <form onSubmit={handleSubmit}>
+            <div className="form-field">
               <label htmlFor="username">Username</label>
-              <div className="input-wrapper">
-                <span className="input-icon">👤</span>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  placeholder="Enter your username"
-                  required
-                  autoComplete="username"
-                />
-              </div>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your username or ID"
+                required
+              />
             </div>
-
-            <div className="form-group">
+            <div className="form-field">
               <label htmlFor="password">Password</label>
-              <div className="input-wrapper">
-                <span className="input-icon">🔒</span>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Enter your password"
-                  required
-                  autoComplete="current-password"
-                />
-                <button
-                  type="button"
-                  className="password-toggle"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
-                </button>
-              </div>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+              />
             </div>
-
-            <div className="form-options">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  name="rememberMe"
-                  checked={formData.rememberMe}
-                  onChange={handleChange}
-                />
-                <span>Remember me</span>
-              </label>
-              <a href="#" className="forgot-link">Forgot password?</a>
-            </div>
-
-            <button 
-              type="submit" 
-              className="login-submit-btn"
-              disabled={isLoading}
-            >
-              {isLoading ? (
+            <button type="submit" className="login-btn" disabled={isLoading || authGlobalLoading}>
+              {isLoading || authGlobalLoading ? (
                 <>
                   <span className="loading-spinner">⏳</span>
-                  <span>Logging in...</span>
+                  Logging in...
                 </>
               ) : (
-                'Login'
+                <>
+                  Login
+                  <span>→</span>
+                </>
               )}
             </button>
           </form>
 
-          {/* Footer */}
-          <div className="login-footer">
-            <p>Don't have an account?</p>
-            <button 
-              className="register-link"
-              onClick={() => navigate('/role-selection')}
-            >
-              Register here
-            </button>
-          </div>
+          {/* Only show register prompt for student and warden */}
+          {(role === 'student' || role === 'warden') && (
+            <div className="register-prompt" data-aos="fade-up" data-aos-delay="200">
+              <p>Don't have an account? </p>
+              <button className="register-link" onClick={handleRegisterClick}>
+                Register Now
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

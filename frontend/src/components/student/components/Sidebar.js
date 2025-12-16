@@ -1,60 +1,97 @@
-import React from 'react';
-import './Sidebar.css';
+// frontend/src/components/student/components/Sidebar.js
+import React, { useState, useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext'; // Path adjusted
+import { 
+  FiHome, 
+  FiBookOpen, 
+  FiMap, 
+  FiFileText, 
+  FiUser, 
+  FiLogOut,
+  FiChevronLeft,
+  FiChevronRight
+} from 'react-icons/fi';
+import AOS from 'aos';
+import './Sidebar.css'; // CSS is in the same folder
 
-const Sidebar = ({ activeSection, setActiveSection, collapsed, setCollapsed }) => {
-  const navigationItems = [
-    { id: 'dashboard', label: 'Home', icon: '🏠' },
-    { id: 'profile', label: 'My Profile', icon: '👤' },
-    { id: 'hostel', label: 'Hostel Info', icon: '🏡' },
-    { id: 'room', label: 'My Room', icon: '🛏' },
-    { id: 'fees', label: 'Fees & Payments', icon: '💰' },
-    { id: 'announcements', label: 'Notices', icon: '📢' },
-    { id: 'complaints', label: 'Raise Complaint', icon: '📩' },
-    { id: 'contact', label: 'Help / Contact', icon: '📞' }
+const Sidebar = () => {
+  // --- ALL HOOKS MUST BE CALLED UNCONDITIONALLY AT THE TOP ---
+  const authContext = useAuth();
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(true);
+  // --- END HOOKS SECTION ---
+
+  useEffect(() => {
+    AOS.refresh();
+  }, []);
+
+  if (!authContext) {
+    console.error('Sidebar component: AuthContext is null. Component is not wrapped by AuthProvider.');
+    return null;
+  }
+  const { user, logout } = authContext;
+
+  const navItems = [
+    { name: 'Home', icon: <FiHome />, path: '/student/home' },
+    { name: 'Hostels', icon: <FiMap />, path: '/student/hostels' },
+    { name: 'My Booking', icon: <FiBookOpen />, path: '/student/my-booking' },
+    { name: 'Complaints', icon: <FiFileText />, path: '/student/complaints' },
+    { name: 'Profile', icon: <FiUser />, path: '/student/profile' },
   ];
 
+  const handleLogout = () => {
+    logout();
+  };
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const displayUserName = user?.name || 'Student';
+  const userInitial = displayUserName.charAt(0).toUpperCase();
+
   return (
-    <aside className={`student-sidebar ${collapsed ? 'collapsed' : ''}`}>
-      {/* Logo */}
+    <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-header">
-        <div className="logo-container">
-          <h2 className="logo-text">
-            {collapsed ? 'S' : 'Student'}<span>Portal</span>
-          </h2>
-        </div>
-        <button 
-          className="collapse-btn"
-          onClick={() => setCollapsed(!collapsed)}
-        >
-          {collapsed ? '→' : '←'}
+        <h3 className="sidebar-title">Hostel<span>ERP</span></h3>
+        <button onClick={toggleSidebar} className="toggle-btn">
+          {isOpen ? <FiChevronLeft size={20} /> : <FiChevronRight size={20} />}
         </button>
       </div>
 
-      {/* Navigation Menu */}
+      <div className="sidebar-user-profile">
+        <div className="profile-avatar">{userInitial}</div>
+        {isOpen && <div className="profile-details">
+          <p className="profile-name">{displayUserName}</p>
+          <p className="profile-role">{user?.role || 'Student'}</p>
+        </div>}
+      </div>
+
       <nav className="sidebar-nav">
-        {navigationItems.map((item) => (
-          <div
-            key={item.id}
-            className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
-            onClick={() => setActiveSection(item.id)}
-          >
-            <span className="nav-icon">{item.icon}</span>
-            <span className="nav-label">{item.label}</span>
-          </div>
-        ))}
+        <ul>
+          {navItems.map((item) => (
+            <li key={item.name}>
+              <NavLink 
+                to={item.path} 
+                className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+                end
+              >
+                {item.icon}
+                {isOpen && <span>{item.name}</span>}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
       </nav>
 
-      {/* Logout
       <div className="sidebar-footer">
-        <div 
-          className="nav-item logout"
-          onClick={() => window.location.href = '/logout'}
-        >
-          <span className="nav-icon">🚪</span>
-          <span className="nav-label">Logout</span>
-        </div>
-      </div> */}
-    </aside>
+        <button onClick={handleLogout} className="logout-btn">
+          <FiLogOut size={20} />
+          {isOpen && <span>Logout</span>}
+        </button>
+      </div>
+    </div>
   );
 };
 

@@ -1,224 +1,98 @@
-import React, { useState, useEffect } from 'react';
-import { studentAPI } from '../../../services/api';
-import './DashboardHome.css';
+// frontend/src/components/student/components/DashboardHome.js
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext'; // Path adjusted
+import { FiBookOpen, FiMap, FiFileText, FiCalendar, FiHome, FiUser } from 'react-icons/fi';
+import AOS from 'aos';
+import './DashboardHome.css'; // CSS is in the same folder
 
 const DashboardHome = () => {
-  const [studentData, setStudentData] = useState(null);
-  const [roomData, setRoomData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [announcements, setAnnouncements] = useState([]);
+  // --- ALL HOOKS MUST BE CALLED UNCONDITIONALLY AT THE TOP ---
+  const navigate = useNavigate();
+  const authContext = useAuth();
 
   useEffect(() => {
-    fetchDashboardData();
+    AOS.refresh();
   }, []);
+  // --- END HOOKS SECTION ---
 
-  const fetchDashboardData = async () => {
-    try {
-      setLoading(true);
-      
-      // Fetch student profile
-      const profileData = await studentAPI.getProfile();
-      setStudentData(profileData.data);
-      
-      // Fetch room details
-      const roomDetails = await studentAPI.getRoomDetails();
-      setRoomData(roomDetails.data);
-      
-      // Mock announcements (replace with actual API call when available)
-      setAnnouncements([
-        {
-          id: 1,
-          title: 'Water supply maintenance on 30th Oct',
-          content: 'Water supply will be interrupted from 10 AM–12 PM.',
-          date: '2025-10-28',
-          type: 'maintenance'
-        },
-        {
-          id: 2,
-          title: 'Mess menu updated for November',
-          content: 'New mess menu has been updated. Check the mess section.',
-          date: '2025-10-25',
-          type: 'info'
-        }
-      ]);
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const dashboardCards = [
-    {
-      id: 'profile',
-      title: 'Profile',
-      icon: '👤',
-      content: studentData ? (
-        <>
-          <p className="card-main">{studentData.fullName}</p>
-          <p className="card-sub">Roll No: {studentData.studentId}</p>
-          <p className="card-sub">{studentData.course} - {studentData.gender}</p>
-        </>
-      ) : 'Loading...',
-      action: 'View Full Profile',
-      color: 'profile'
-    },
-    {
-      id: 'hostel',
-      title: 'Hostel Info',
-      icon: '🏡',
-      content: studentData ? (
-        <>
-          <p className="card-main">{studentData.hostelName || 'Not Assigned'}</p>
-          <p className="card-sub">Type: {studentData.gender} Hostel</p>
-          <p className="card-sub">Warden: Contact at reception</p>
-        </>
-      ) : 'Loading...',
-      action: 'View Hostel Details',
-      color: 'hostel'
-    },
-    {
-      id: 'room',
-      title: 'Room Info',
-      icon: '🛏',
-      content: roomData ? (
-        <>
-          <p className="card-main">Room {roomData.roomNumber}</p>
-          <p className="card-sub">{studentData?.roomType || 'Sharing'} Type</p>
-          <p className="card-sub">Bed: {roomData.bedNumber || 'Not Assigned'}</p>
-        </>
-      ) : 'Loading...',
-      action: 'View Room Details',
-      color: 'room'
-    },
-    {
-      id: 'fees',
-      title: 'Fee Status',
-      icon: '💰',
-      content: (
-        <>
-          <p className="card-main">₹10,000</p>
-          <p className="card-sub">Total Fees</p>
-          <p className="card-sub pending">Pending: ₹5,000</p>
-        </>
-      ),
-      action: 'Pay Now',
-      color: 'fees'
-    },
-    {
-      id: 'complaints',
-      title: 'Complaints',
-      icon: '📩',
-      content: (
-        <>
-          <p className="card-main">2</p>
-          <p className="card-sub">Active Complaints</p>
-          <p className="card-sub">Resolved: 5</p>
-        </>
-      ),
-      action: 'Raise New Complaint',
-      color: 'complaints'
-    },
-    {
-      id: 'announcements',
-      title: 'Announcements',
-      icon: '📢',
-      content: (
-        <>
-          <p className="card-main">{announcements.length}</p>
-          <p className="card-sub">New Notices</p>
-          <p className="card-sub">Latest: Today</p>
-        </>
-      ),
-      action: 'View All Notices',
-      color: 'announcements'
-    }
-  ];
-
-  if (loading) {
-    return (
-      <div className="dashboard-loading">
-        <div className="loader"></div>
-        <p>Loading your dashboard...</p>
-      </div>
-    );
+  if (!authContext) {
+    console.error('DashboardHome component: AuthContext is null. Component is not wrapped by AuthProvider.');
+    return null;
   }
+  const { user } = authContext;
+
+  const displayName = user?.name || 'Student';
+  const displayRole = user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : 'Student';
+  const hasBookedRoom = user?.hostelName && user?.roomNumber;
 
   return (
-    <div className="dashboard-home">
-      {/* Welcome Section */}
-      <div className="welcome-section" data-aos="fade-down">
-        <h1>Welcome back, {studentData?.fullName}!</h1>
-        <p>Here's your hostel overview at a glance</p>
+    <div className="dashboard-home-container">
+      <div className="welcome-banner" data-aos="fade-down">
+        <h1 className="banner-title">Hello, <span className="highlight-text">{displayName}</span>!</h1>
+        <p className="banner-subtitle">Welcome to your {displayRole} Portal for Year {user?.year || ''}.</p>
+        <p className="banner-subtitle-small">Ready to make your hostel life smoother?</p>
       </div>
 
-      {/* Dashboard Cards */}
-      <div className="dashboard-cards">
-        {dashboardCards.map((card, index) => (
-          <div 
-            key={card.id}
-            className={`dashboard-card ${card.color}`}
-            data-aos="zoom-in"
-            data-aos-delay={index * 100}
-          >
-            <div className="card-header">
-              <span className="card-icon">{card.icon}</span>
-              <h3>{card.title}</h3>
-            </div>
-            <div className="card-content">
-              {card.content}
-            </div>
-            <button className="card-action">
-              {card.action} →
-            </button>
+      {hasBookedRoom && (
+        <div className="current-hostel-card" data-aos="fade-up" data-aos-delay="50">
+          <FiHome size={30} className="hostel-icon" />
+          <div className="hostel-info-details">
+            <h3 className="hostel-card-title">Your Current Hostel: <span className="highlight-text">{user.hostelName}</span></h3>
+            <p className="hostel-card-subtitle">Room No: <span className="highlight-text">{user.roomNumber}</span></p>
+            <p className="hostel-card-roommates">
+              Roommates: {user.roommates && user.roommates.length > 0 
+                ? user.roommates.join(', ')
+                : 'No roommates yet'}
+            </p>
+            <button className="view-details-btn" onClick={() => navigate('/student/my-booking')}>View My Booking</button>
           </div>
-        ))}
-      </div>
-
-      {/* Recent Announcements */}
-      <div className="announcements-section" data-aos="fade-up">
-        <div className="section-header">
-          <h2>Recent Announcements</h2>
-          <a href="#announcements" className="view-all">View All</a>
         </div>
-        <div className="announcements-list">
-          {announcements.map((announcement) => (
-            <div key={announcement.id} className="announcement-card">
-              <div className="announcement-icon">
-                {announcement.type === 'maintenance' ? '🔧' : '📢'}
-              </div>
-              <div className="announcement-content">
-                <h4>{announcement.title}</h4>
-                <p>{announcement.content}</p>
-                <span className="announcement-date">
-                  {new Date(announcement.date).toLocaleDateString()}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      )}
 
-      {/* Quick Actions */}
-      <div className="quick-actions" data-aos="fade-up">
-        <h2>Quick Actions</h2>
-        <div className="action-buttons">
-          <button className="quick-action-btn">
-            <span>📝</span>
-            Request Room Change
-          </button>
-          <button className="quick-action-btn">
-            <span>🍽️</span>
-            Update Mess Preferences
-          </button>
-          <button className="quick-action-btn">
-            <span>📄</span>
-            Download Fee Receipt
-          </button>
-          <button className="quick-action-btn">
-            <span>📞</span>
-            Contact Warden
-          </button>
+      <div className="action-cards-grid">
+        <div 
+          className="action-card" 
+          data-aos="fade-up" 
+          data-aos-delay={hasBookedRoom ? "150" : "100"}
+          onClick={() => navigate('/student/hostels')}
+        >
+          <FiMap size={40} className="card-icon" />
+          <h3 className="card-title">Explore Hostels</h3>
+          <p className="card-description">Find and book your ideal room.</p>
+        </div>
+
+        <div 
+          className="action-card" 
+          data-aos="fade-up" 
+          data-aos-delay={hasBookedRoom ? "250" : "200"}
+          onClick={() => navigate('/student/my-booking')}
+        >
+          <FiBookOpen size={40} className="card-icon" />
+          <h3 className="card-title">My Bookings</h3>
+          <p className="card-description">View your current and past bookings.</p>
+        </div>
+
+        <div 
+          className="action-card" 
+          data-aos="fade-up" 
+          data-aos-delay={hasBookedRoom ? "350" : "300"}
+          onClick={() => navigate('/student/complaints')}
+        >
+          <FiFileText size={40} className="card-icon" />
+          <h3 className="card-title">Submit Complaint</h3>
+          <p className="card-description">Report issues or give feedback.</p>
+        </div>
+
+        <div 
+          className="action-card" 
+          data-aos="fade-up" 
+          data-aos-delay={hasBookedRoom ? "450" : "400"}
+          onClick={() => navigate('/student/profile')}
+        >
+          <FiUser size={40} className="card-icon" />
+          <h3 className="card-title">My Profile</h3>
+          <p className="card-description">View and manage your personal details.</p>
         </div>
       </div>
     </div>

@@ -1,0 +1,283 @@
+/* frontend/src/components/student/YearSelection.css */
+@import '../auth/auth-animations.css'; /* Reuse animations from auth folder */
+
+/* Base Year Selection Page Styles */
+.year-selection-page {
+  min-height: 100vh;
+  background: var(--dark-bg);
+  position: relative;
+  overflow: hidden; /* Hide floating shapes overflow */
+}
+
+/* Background Elements - Directly copied from Login.css for consistency */
+.ys-bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.ys-bg-gradient {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    var(--dark-bg) 0%,
+    rgba(139, 107, 74, 0.05) 50%,
+    var(--dark-bg) 100%
+  );
+}
+
+.ys-floating-shapes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Reuse existing floating-shape styles from auth-animations.css */
+.ys-floating-shapes .floating-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.2;
+  animation: float-premium 30s infinite ease-in-out;
+  will-change: transform;
+}
+
+.ys-floating-shapes .shape-1 {
+  width: 600px;
+  height: 600px;
+  background: var(--gradient-brown);
+  top: -300px;
+  left: -300px;
+}
+
+.ys-floating-shapes .shape-2 {
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+  bottom: -250px;
+  right: -250px;
+  animation-duration: 35s;
+  animation-direction: reverse;
+}
+
+.ys-floating-shapes .shape-3 {
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-duration: 40s;
+}
+
+/* Navigation - Copied from Login.css for consistency */
+.ys-nav {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 40px;
+  animation: fadeInDown 1s ease;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  background: rgba(26, 26, 26, 0.9);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--border-gold-30);
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-white);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.nav-btn:hover {
+  background: var(--gradient-brown);
+  color: var(--text-white);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px var(--gold-transparent-50);
+  border-color: transparent;
+}
+
+/* Year Selection Container */
+.ys-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 100px); /* Adjust based on nav height */
+  padding: 20px;
+}
+
+/* Year Selection Card */
+.ys-card {
+  background: rgba(26, 26, 26, 0.9);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 40px;
+  padding: 60px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-gold-30);
+  position: relative;
+  overflow: hidden;
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+  animation: scaleIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.ys-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-white);
+  margin-bottom: 10px;
+  letter-spacing: -1px;
+}
+
+.gradient-text {
+  background: var(--gradient-brown);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ys-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-gray);
+  font-weight: 300;
+  margin-bottom: 40px;
+}
+
+.error-message {
+  color: var(--error);
+  background-color: rgba(255, 107, 107, 0.1);
+  border: 1px solid var(--error);
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.year-grid {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.year-button {
+  background-color: var(--dark-bg-2);
+  border: 2px solid var(--border-dark);
+  color: var(--text-gray);
+  padding: 20px 35px;
+  border-radius: 15px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.year-button:hover:not(:disabled) {
+  border-color: var(--gold-light);
+  color: var(--text-white);
+  background-color: var(--dark-card-hover);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.year-button.selected {
+  background: var(--gradient-brown);
+  border-color: var(--gold);
+  color: var(--dark-bg); /* Dark text on gold for contrast */
+  box-shadow: 0 8px 25px var(--gold-transparent-50);
+  transform: translateY(-5px);
+}
+
+.year-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submit-year-btn {
+  background: var(--gradient-brown);
+  border: none;
+  color: var(--text-white);
+  padding: 18px 40px;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-year-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px var(--gold-transparent-50);
+}
+
+.submit-year-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading-state {
+  color: var(--text-gray);
+  font-size: 1.2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ys-nav {
+    padding: 20px;
+  }
+
+  .nav-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .ys-card {
+    padding: 40px 30px;
+    margin-top: 20px;
+  }
+
+  .ys-title {
+    font-size: 2rem;
+  }
+
+  .ys-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .year-grid {
+    gap: 15px;
+  }
+
+  .year-button {
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    min-width: 100px;
+  }
+
+  .submit-year-btn {
+    padding: 15px 30px;
+    font-size: 1rem;
+  }
+}

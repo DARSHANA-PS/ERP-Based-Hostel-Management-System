@@ -1,13 +1,21 @@
+// frontend/src/components/auth/StudentRegistration.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import AOS from 'aos';
-import { authAPI } from '../../services/api';
-import './StudentRegistration.css';
+import { useAuth } from '../../context/AuthContext'; // Correct path!
+// import { authAPI } from '../../services/api'; // No longer directly using authAPI here for registration
+import './StudentRegistration.css'; // Assuming your CSS file is here
 
 const StudentRegistration = () => {
+  // console.log('StudentRegistration component: Rendering.'); // DEBUG LOG
+
+  // --- ALL HOOKS MUST BE CALLED UNCONDITIONALLY AT THE TOP ---
   const navigate = useNavigate();
   const { gender } = useParams();
   const location = useLocation();
+  const authContext = useAuth(); // Call useAuth() here
+  
+  // These useState calls must come BEFORE any conditional returns or logic
   const { 
     email, 
     skipPersonalDetails, 
@@ -17,21 +25,19 @@ const StudentRegistration = () => {
     roomBooked
   } = location.state || {};
   
-  // Determine starting step based on user status and flow
   const isNewUser = !skipPersonalDetails;
   const hasBookedRoom = roomBooked || skipHostelSelection;
   
-  // Set initial step based on where user is coming from
   const getInitialStep = () => {
-    if (isNewUser) return 1; // New user starts at step 1
-    if (!hasBookedRoom) return 3; // Approved user without room starts at step 3
-    return 4; // Approved user with room starts at step 4 (authentication only)
+    if (isNewUser) return 1;
+    if (!hasBookedRoom) return 3;
+    return 4;
   };
   
   const [currentStep, setCurrentStep] = useState(getInitialStep());
   const totalSteps = isNewUser ? 2 : (hasBookedRoom ? 1 : 2);
   
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Local loading for form submission
   const [submitError, setSubmitError] = useState('');
   
   const [formData, setFormData] = useState({
@@ -54,12 +60,12 @@ const StudentRegistration = () => {
     permanentAddress: '',
     emergencyContact: '',
     
-    // Hostel Preference
+    // Hostel Preference (for students continuing registration)
     hostelName: gender === 'male' ? 'Boys Hostel' : 'Girls Hostel',
-    roomType: '',
+    roomType: '', // Will be updated when selecting hostel/room
     messPreference: '',
     
-    // Authentication
+    // Authentication (for students completing registration)
     username: '',
     password: '',
     confirmPassword: '',
@@ -69,15 +75,23 @@ const StudentRegistration = () => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    // If no email in state, redirect to email check
-    if (!email) {
+    // This effect can run after hooks are defined
+    if (isNewUser && !email) { 
       navigate(`/register/student/${gender}`);
     }
-  }, [email, gender, navigate]);
+  }, [email, gender, navigate, isNewUser]);
 
   useEffect(() => {
     AOS.refresh();
   }, [currentStep]);
+  // --- END HOOKS SECTION ---
+
+  // Now, after all hooks are called, you can safely use conditional logic
+  if (!authContext) {
+    console.error('StudentRegistration component: AuthContext is null. This component is likely not wrapped by AuthProvider.');
+    return <div>Error: Authentication context not available. Please ensure AuthProvider wraps this component.</div>;
+  }
+  const { registerStudent, loading: authGlobalLoading } = authContext;
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -93,7 +107,6 @@ const StudentRegistration = () => {
       }));
     }
     
-    // Clear error for this field
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -101,7 +114,6 @@ const StudentRegistration = () => {
       }));
     }
     
-    // Clear submit error
     if (submitError) {
       setSubmitError('');
     }
@@ -111,22 +123,21 @@ const StudentRegistration = () => {
     const newErrors = {};
     
     if (isNewUser) {
-      // Validation for new users
       switch(step) {
-        case 1: // Personal Details
+        case 1: 
           if (!formData.fullName) newErrors.fullName = 'Full name is required';
           if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
           if (!formData.studentId) newErrors.studentId = 'Student ID is required';
-          if (!formData.aadharNumber) newErrors.aadharNumber = 'Aadhar number is required';
+          if (!formData.aadharNumber) newErrors.aadharNumber = 'Fees receipt number is required';
           if (formData.aadharNumber && !/^\d{12}$/.test(formData.aadharNumber)) {
-            newErrors.aadharNumber = 'Receipt number must be 12 digits';
+            newErrors.aadharNumber = 'Fees receipt number must be 12 digits';
           }
           if (!formData.department) newErrors.department = 'Department is required';
           if (!formData.year) newErrors.year = 'Year is required';
           if (!formData.course) newErrors.course = 'Course is required';
           break;
           
-        case 2: // Contact Details
+        case 2: 
           if (!formData.email) newErrors.email = 'Email is required';
           if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
             newErrors.email = 'Invalid email format';
@@ -148,14 +159,12 @@ const StudentRegistration = () => {
           break;
       }
     } else {
-      // Validation for approved users
-      switch(step) {
-        case 3: // Hostel Preference (only shown if room not booked)
-          if (!formData.roomType) newErrors.roomType = 'Room type is required';
+      switch(currentStep) {
+        case 3: 
           if (!formData.messPreference) newErrors.messPreference = 'Mess preference is required';
           break;
           
-        case 4: // Authentication
+        case 4: 
           if (!formData.username) newErrors.username = 'Username is required';
           if (formData.username && formData.username.length < 4) {
             newErrors.username = 'Username must be at least 4 characters';
@@ -179,7 +188,6 @@ const StudentRegistration = () => {
   const handleNext = () => {
     if (validateStep(currentStep)) {
       if (!isNewUser && currentStep === 3 && !hasBookedRoom) {
-        // If approved user just filled hostel preferences, redirect to hostel selection
         navigate(`/student/hostel-selection/${gender}`, {
           state: {
             email,
@@ -196,10 +204,8 @@ const StudentRegistration = () => {
 
   const handlePrevious = () => {
     if (!isNewUser && currentStep === 3) {
-      // If approved user at first step, go back to email check
-      navigate(`/register/student/${gender}`);
+      navigate(`/register/student/${gender}`); 
     } else if (!isNewUser && currentStep === 4 && hasBookedRoom) {
-      // If user has booked room and is at auth step, go back to hostel selection
       navigate(`/student/hostel-selection/${gender}`, {
         state: {
           email,
@@ -222,7 +228,6 @@ const StudentRegistration = () => {
         let registrationData;
         
         if (isNewUser) {
-          // New user: Submit personal and contact details only
           registrationData = {
             fullName: formData.fullName,
             gender: formData.gender,
@@ -238,25 +243,23 @@ const StudentRegistration = () => {
             parentMobile: formData.parentMobile,
             permanentAddress: formData.permanentAddress,
             emergencyContact: formData.emergencyContact,
-            // Set temporary values for required fields
             hostelName: formData.hostelName,
             roomType: 'pending',
             messPreference: 'pending',
-            username: 'pending_' + Date.now(),
-            password: 'pending123',
-            partialRegistration: true // Flag to indicate partial registration
+            username: 'pending_' + Date.now(), 
+            password: 'password123', 
+            partialRegistration: true 
           };
         } else {
-          // Approved user: Update auth details
           registrationData = {
             email: formData.email,
             username: formData.username,
             password: formData.password,
-            completeRegistration: true // Flag to indicate completing registration
+            completeRegistration: true 
           };
         }
         
-        const response = await authAPI.registerStudent(registrationData);
+        const response = await registerStudent(registrationData);
         
         if (response.success) {
           if (isNewUser) {
@@ -266,6 +269,8 @@ const StudentRegistration = () => {
             alert('Registration completed successfully! You can now login.');
             navigate('/login/student');
           }
+        } else {
+            setSubmitError(response.message);
         }
       } catch (error) {
         setSubmitError(error.message || 'Registration failed. Please try again.');
@@ -278,7 +283,6 @@ const StudentRegistration = () => {
 
   const renderStep = () => {
     if (isNewUser) {
-      // New user flow: Personal and Contact details only
       switch(currentStep) {
         case 1:
           return (
@@ -438,7 +442,7 @@ const StudentRegistration = () => {
                     style={email ? { background: 'rgba(139, 107, 74, 0.1)', cursor: 'not-allowed' } : {}}
                   />
                   {errors.email && <span className="error-text">{errors.email}</span>}
-                  {email && <span className="helper-text" style={{ color: 'var(--light-brown)', fontSize: '12px' }}>Email is pre-filled from previous step</span>}
+                  {email && <span className="helper-text" style={{ color: 'var(--gold-light)', fontSize: '12px' }}>Email is pre-filled from previous step</span>}
                 </div>
 
                 <div className="form-field">
@@ -511,12 +515,12 @@ const StudentRegistration = () => {
               </div>
             </div>
           );
+        default:
+          return null;
       }
     } else {
-      // Approved user flow
       switch(currentStep) {
         case 3:
-          // Only show this step if room hasn't been booked
           if (hasBookedRoom) {
             setCurrentStep(4);
             return null;
@@ -582,7 +586,7 @@ const StudentRegistration = () => {
                 marginTop: '30px',
                 textAlign: 'center'
               }}>
-                <p style={{ color: '#2196F3', fontSize: '16px', margin: 0 }}>
+                <p style={{ color: 'var(--info)', fontSize: '16px', margin: 0 }}>
                   After setting your preferences, you'll be redirected to select your hostel and room.
                 </p>
               </div>
@@ -601,7 +605,7 @@ const StudentRegistration = () => {
                   borderRadius: '15px',
                   padding: '15px 20px',
                   marginBottom: '30px',
-                  color: '#4CAF50',
+                  color: 'var(--success)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '10px'
@@ -677,6 +681,8 @@ const StudentRegistration = () => {
               </div>
             </div>
           );
+        default:
+          return null;
       }
     }
   };
@@ -777,15 +783,15 @@ const StudentRegistration = () => {
             </h1>
             <p className="reg-subtitle">{formData.hostelName}</p>
             {isNewUser ? (
-              <p className="reg-subtitle" style={{ color: '#2196F3', marginTop: '10px' }}>
+              <p className="reg-subtitle" style={{ color: 'var(--info)', marginTop: '10px' }}> {/* Using CSS Variable */}
                 Complete your details for admin approval
               </p>
             ) : roomBooked ? (
-              <p className="reg-subtitle" style={{ color: '#4CAF50', marginTop: '10px' }}>
+              <p className="reg-subtitle" style={{ color: 'var(--success)', marginTop: '10px' }}> {/* Using CSS Variable */}
                 Complete your registration
               </p>
             ) : (
-              <p className="reg-subtitle" style={{ color: '#4CAF50', marginTop: '10px' }}>
+              <p className="reg-subtitle" style={{ color: 'var(--success)', marginTop: '10px' }}> {/* Using CSS Variable */}
                 Complete your hostel booking
               </p>
             )}
@@ -802,7 +808,7 @@ const StudentRegistration = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
-              color: '#f44336'
+              color: 'var(--error)' // Using CSS Variable
             }}>
               <span className="error-icon">⚠️</span>
               <span>{submitError}</span>
@@ -836,6 +842,7 @@ const StudentRegistration = () => {
                   type="button"
                   className="btn-primary"
                   onClick={handleNext}
+                  disabled={isLoading || authGlobalLoading}
                 >
                   Next
                   <span>→</span>
@@ -846,6 +853,7 @@ const StudentRegistration = () => {
                   type="button"
                   className="btn-primary"
                   onClick={handleNext}
+                  disabled={isLoading || authGlobalLoading}
                 >
                   Select Hostel & Room
                   <span>→</span>
@@ -855,9 +863,9 @@ const StudentRegistration = () => {
                 <button
                   type="submit"
                   className="btn-submit"
-                  disabled={isLoading}
+                  disabled={isLoading || authGlobalLoading}
                 >
-                  {isLoading ? (
+                  {isLoading || authGlobalLoading ? (
                     <>
                       <span className="loading-spinner">⏳</span>
                       Submitting...

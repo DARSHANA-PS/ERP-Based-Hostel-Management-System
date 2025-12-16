@@ -1,210 +1,134 @@
+// frontend/src/components/student/components/MyHostel.js
 import React, { useState, useEffect } from 'react';
-import { studentAPI, hostelAPI } from '../../../services/api';
-import './MyHostel.css';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext'; // Path adjusted
+import { studentAPI } from '../../../services/api'; // Path adjusted
+import { FiHome, FiKey, FiUsers, FiCalendar, FiDollarSign, FiInfo, FiCheckCircle } from 'react-icons/fi';
+import AOS from 'aos';
+import './MyHostel.css'; // CSS is in the same folder
 
 const MyHostel = () => {
-  const [hostelData, setHostelData] = useState(null);
-  const [wardenInfo, setWardenInfo] = useState(null);
+  // --- ALL HOOKS MUST BE CALLED UNCONDITIONALLY AT THE TOP ---
+  const navigate = useNavigate();
+  const authContext = useAuth();
+  
+  const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showVideo, setShowVideo] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchHostelDetails();
+    AOS.refresh();
   }, []);
+  // --- END HOOKS SECTION ---
 
-  const fetchHostelDetails = async () => {
-    try {
-      setLoading(true);
-      
-      // Get student profile to find their hostel
-      const profileResponse = await studentAPI.getProfile();
-      const studentData = profileResponse.data;
-      
-      if (studentData.hostelName) {
-        // Mock hostel data (replace with actual API call when available)
-        const mockHostelData = {
-          hostelName: studentData.hostelName,
-          hostelType: studentData.gender + ' Hostel',
-          location: 'North Campus Block A',
-          totalRooms: 150,
-          totalCapacity: 450,
-          occupiedBeds: 380,
-          facilities: [
-            'Wi-Fi',
-            '24/7 Security',
-            'Common Room',
-            'Study Hall',
-            'Laundry',
-            'Hot Water',
-            'Power Backup',
-            'Medical Facility'
-          ],
-          rules: [
-            'Maintain silence hours from 10 PM to 6 AM',
-            'No unauthorized visitors allowed',
-            'Keep your room clean and tidy',
-            'Respect hostel property and fellow residents',
-            'Follow mess timings strictly',
-            'No smoking or alcohol on premises'
-          ],
-          wardenDetails: {
-            name: 'Dr. Rajesh Kumar',
-            designation: 'Chief Warden',
-            mobile: '+91 9876543210',
-            email: 'warden@college.edu',
-            officeHours: '9:00 AM - 6:00 PM',
-            room: 'Ground Floor, Room 001'
-          }
-        };
-        
-        setHostelData(mockHostelData);
-        setWardenInfo(mockHostelData.wardenDetails);
+  if (!authContext) {
+    console.error('MyHostel: AuthContext is null.');
+    return <div>Error: Authentication context not available.</div>;
+  }
+  const { user, loading: authGlobalLoading } = authContext;
+
+  useEffect(() => { // This useEffect now comes after the `if (!authContext)` check
+    const fetchMyBooking = async () => {
+      if (authGlobalLoading || !user) {
+        return;
       }
-    } catch (error) {
-      console.error('Error fetching hostel details:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  if (loading) {
-    return (
-      <div className="hostel-loading">
-        <div className="loader"></div>
-        <p>Loading hostel information...</p>
-      </div>
-    );
+      if (!user.hostelName || !user.roomNumber) {
+        setError('You do not have any active hostel booking.');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError('');
+        const response = await studentAPI.getMyBookings();
+        if (response.data && response.data.length > 0) {
+          setBooking(response.data[0]); 
+        } else {
+          setError('No active booking found.');
+        }
+      } catch (err) {
+        console.error("Failed to fetch my booking:", err);
+        setError(err.message || 'Failed to load booking details.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMyBooking();
+  }, [authGlobalLoading, user]);
+
+  if (authGlobalLoading || loading) {
+    return <div className="my-hostel-container loading-state">Loading My Booking...</div>;
   }
 
-  if (!hostelData) {
+  if (error) {
+    return <div className="my-hostel-container error-state">Error: {error}</div>;
+  }
+
+  if (!booking) {
     return (
-      <div className="no-hostel">
-        <h2>No Hostel Assigned</h2>
-        <p>You haven't been assigned to any hostel yet. Please contact the admin.</p>
+      <div className="my-hostel-container no-booking-state" data-aos="fade-up">
+        <FiInfo size={50} className="info-icon-large" />
+        <h2 className="no-booking-title">No Active Hostel Booking</h2>
+        <p className="no-booking-text">It looks like you haven't booked a hostel room yet. Explore available hostels to find your perfect spot!</p>
+        <button className="explore-hostels-btn" onClick={() => navigate('/student/hostels')}>Explore Hostels</button>
       </div>
     );
   }
 
   return (
     <div className="my-hostel-container">
-      {/* Header */}
-      <div className="hostel-header" data-aos="fade-down">
-        <h1>Hostel Information</h1>
-        <p>View your assigned hostel details, facilities, and warden contact</p>
-      </div>
+      <h1 className="page-title">My Hostel <span className="gradient-text">Booking</span></h1>
 
-      {/* Hostel Overview Card */}
-      <div className="hostel-overview-card" data-aos="fade-up">
-        <div className="hostel-image-section">
-          <img 
-            src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800" 
-            alt={hostelData.hostelName}
-          />
-          <button className="play-video-btn" onClick={() => setShowVideo(true)}>
-            🎥 Virtual Tour
-          </button>
-        </div>
-        
-        <div className="hostel-info-section">
-          <h2>{hostelData.hostelName}</h2>
-          <p className="hostel-type">{hostelData.hostelType}</p>
-          <p className="hostel-location">📍 {hostelData.location}</p>
-          
-          <div className="hostel-stats">
-            <div className="stat">
-              <span className="stat-value">{hostelData.totalRooms}</span>
-              <span className="stat-label">Total Rooms</span>
-            </div>
-            <div className="stat">
-              <span className="stat-value">{hostelData.totalCapacity}</span>
-              <span className="stat-label">Total Capacity</span>
-            </div>
-            <div className="stat">
-              <span className="stat-value">{hostelData.occupiedBeds}</span>
-              <span className="stat-label">Occupied Beds</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Warden Information
-      <div className="warden-card" data-aos="fade-up">
-        <h3>Warden Information</h3>
-        <div className="warden-details">
-          <div className="warden-avatar">
-            <span>{wardenInfo.name.charAt(0)}</span>
-          </div>
-          <div className="warden-info">
-            <h4>{wardenInfo.name}</h4>
-            <p className="designation">{wardenInfo.designation}</p>
-            <div className="contact-details">
-              <p>📱 {wardenInfo.mobile}</p>
-              <p>📧 {wardenInfo.email}</p>
-              <p>🏢 {wardenInfo.room}</p>
-              <p>⏰ Office Hours: {wardenInfo.officeHours}</p>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      {/* Facilities and Rules */}
-      <div className="facilities-rules-grid" data-aos="fade-up">
-        {/* Facilities */}
-        <div className="facilities-card">
-          <h3>Available Facilities</h3>
-          <div className="facilities-grid">
-            {hostelData.facilities.map((facility, index) => (
-              <div key={index} className="facility-item">
-                <span className="facility-icon">✅</span>
-                <span>{facility}</span>
-              </div>
-            ))}
+      <div className="booking-card" data-aos="fade-up">
+        <div className="booking-header">
+          <FiHome size={35} className="booking-icon" />
+          <div className="header-details">
+            <h2 className="hostel-name">{booking.hostelName || 'N/A'}</h2>
+            <p className="room-number">Room No: <span className="highlight-text">{booking.roomNumber || 'N/A'}</span></p>
           </div>
         </div>
 
-        {/* Rules */}
-        <div className="rules-card">
-          <h3>Hostel Rules & Regulations</h3>
-          <ol className="rules-list">
-            {hostelData.rules.map((rule, index) => (
-              <li key={index}>{rule}</li>
-            ))}
-          </ol>
+        <div className="booking-details-grid">
+          <div className="detail-item" data-aos="fade-left" data-aos-delay="100">
+            <FiKey size={20} className="detail-icon" />
+            <span className="detail-label">Booking ID:</span>
+            <span className="detail-value">{booking._id || 'N/A'}</span>
+          </div>
+          <div className="detail-item" data-aos="fade-left" data-aos-delay="200">
+            <FiCalendar size={20} className="detail-icon" />
+            <span className="detail-label">Booking Date:</span>
+            <span className="detail-value">{booking.bookingDate ? new Date(booking.bookingDate).toLocaleDateString() : 'N/A'}</span>
+          </div>
+          <div className="detail-item" data-aos="fade-left" data-aos-delay="300">
+            <FiCheckCircle size={20} className="detail-icon" />
+            <span className="detail-label">Status:</span>
+            <span className={`detail-value status-${booking.status?.toLowerCase()}`}>{booking.status || 'N/A'}</span>
+          </div>
+        </div>
+
+        <div className="roommates-section" data-aos="fade-up" data-aos-delay="400">
+          <h3><FiUsers size={20} /> Current Roommates:</h3>
+          {booking.roommates && booking.roommates.length > 0 ? (
+            <ul className="roommates-list">
+              {booking.roommates.map((mate, index) => (
+                <li key={index}>{mate}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="no-roommates-text">No other roommates in your room yet.</p>
+          )}
+        </div>
+
+        <div className="additional-info" data-aos="fade-up" data-aos-delay="500">
+          <h3><FiDollarSign size={20} /> Fee Details (Mock)</h3>
+          <p>Monthly Rent: <span className="highlight-text">₹5000</span></p>
+          <p>Due Date: <span className="highlight-text">25th of every month</span></p>
+          <button className="pay-fee-btn">Pay Fees Now</button>
         </div>
       </div>
-
-      {/* Contact Card */}
-      <div className="contact-card" data-aos="fade-up">
-        <h3>Need Help?</h3>
-        <p>For any hostel-related issues or queries, contact:</p>
-        <div className="contact-options">
-          <button className="contact-btn">
-            <span>📞</span>
-            Call Warden
-          </button>
-          <button className="contact-btn">
-            <span>📧</span>
-            Email Warden
-          </button>
-          <button className="contact-btn">
-            <span>🏢</span>
-            Visit Office
-          </button>
-        </div>
-      </div>
-
-      {/* Video Modal */}
-      {showVideo && (
-        <div className="video-modal" onClick={() => setShowVideo(false)}>
-          <div className="video-container" onClick={(e) => e.stopPropagation()}>
-            <button className="close-video" onClick={() => setShowVideo(false)}>×</button>
-            <video controls autoPlay>
-              <source src="/videos/hostel-tour.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

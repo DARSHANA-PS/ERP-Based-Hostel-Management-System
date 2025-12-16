@@ -1,6 +1,70 @@
 /* frontend/src/index.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://unpkg.com/aos@2.3.1/dist/aos.css');
+/* frontend/src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Primary Dark Theme */
+  --dark-bg: #0f0f0f;
+  --dark-bg-2: #1a1a1a;
+  --dark-card: #2a2a2a;
+  --dark-card-hover: #353535;
+
+  /* Gold Accent Theme */
+  --gold: #C9A961;
+  --gold-light: #D4AF87;
+  --gold-dark: #a68860;
+  --gold-transparent: #C9A96120; /* 20% opacity */
+  --gold-transparent-50: #C9A96150; /* 50% opacity */
+  
+  /* Text Colors */
+  --text-white: #FFFFFF;
+  --text-gray: #B0B0B0;
+  --text-dark-gray: #999999;
+  --lighter-grey: #e0e0e0; /* For secondary text/borders */
+  
+  /* Status Colors */
+  --success: #4CAF50;
+  --error: #FF6B6B;
+  --warning: #FFC107;
+  --info: #2196F3;
+  
+  /* Borders */
+  --border-gold: #C9A961;
+  --border-gold-30: #C9A96130;
+  --border-dark: #3a3a3a;
+
+  /* Gradients */
+  --gradient-brown: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-light) 100%);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--dark-bg);
+  color: var(--text-white);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Base styles for buttons/inputs if not already present in App.css */
+button {
+  cursor: pointer;
+}
+input, select, textarea {
+  font-family: inherit;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+}
 
 :root {
   /* Color Palette - Apply to all pages */

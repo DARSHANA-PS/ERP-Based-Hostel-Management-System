@@ -1,288 +1,177 @@
+// frontend/src/components/student/components/Complaints.js
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import axios from 'axios';
-import './Complaints.css';
+import { useAuth } from '../../../context/AuthContext'; // Path adjusted
+import { studentAPI } from '../../../services/api'; // Path adjusted
+import { FiSend, FiList, FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
+import AOS from 'aos';
+import './Complaints.css'; // CSS is in the same folder
 
 const Complaints = () => {
+  // --- ALL HOOKS MUST BE CALLED UNCONDITIONALLY AT THE TOP ---
+  const authContext = useAuth();
+  
   const [complaints, setComplaints] = useState([]);
-  const [showForm, setShowForm] = useState(false);
+  const [newComplaint, setNewComplaint] = useState({ title: '', description: '' });
   const [loading, setLoading] = useState(true);
-  const [newComplaint, setNewComplaint] = useState({
-    category: 'maintenance',
-    description: '',
-    priority: 'medium'
-  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState({ type: '', text: '' });
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
-    fetchComplaints();
+    AOS.refresh();
   }, []);
+  // --- END HOOKS SECTION ---
 
-  const fetchComplaints = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      // Fixed API endpoint - removed the 's' from students
-      const response = await axios.get('http://localhost:5000/api/student/complaints', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      
-      if (response.data.success) {
-        setComplaints(response.data.data);
+  if (!authContext) {
+    console.error('Complaints: AuthContext is null.');
+    return <div>Error: Authentication context not available.</div>;
+  }
+  const { user, loading: authGlobalLoading, mockSubmitComplaint } = authContext;
+
+  useEffect(() => { // This useEffect now comes after the `if (!authContext)` check
+    const fetchComplaints = async () => {
+      if (authGlobalLoading || !user) {
+        return;
       }
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching complaints:', error);
-      setLoading(false);
-    }
+
+      try {
+        setLoading(true);
+        const response = await studentAPI.getMyComplaints();
+        setComplaints(response.data.reverse()); // Show newest first
+      } catch (err) {
+        console.error("Failed to fetch complaints:", err);
+        setSubmitMessage({ type: 'error', text: err.message || 'Failed to load complaints.' });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchComplaints();
+  }, [authGlobalLoading, user, submitting]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewComplaint(prev => ({ ...prev, [name]: value }));
+    setFormErrors(prev => ({ ...prev, [name]: '' })); // Clear error on change
+    setSubmitMessage({ type: '', text: '' }); // Clear submission message
   };
 
-  const handleSubmit = async (e) => {
+  const validateForm = () => {
+    const errors = {};
+    if (!newComplaint.title.trim()) {
+      errors.title = 'Complaint title is required.';
+    }
+    if (!newComplaint.description.trim()) {
+      errors.description = 'Complaint description is required.';
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmitComplaint = async (e) => {
     e.preventDefault();
-    try {
-      const token = localStorage.getItem('token');
-      // Fixed API endpoint - removed the 's' from students
-      const response = await axios.post(
-        'http://localhost:5000/api/student/complaints', 
-        newComplaint, 
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
+    if (!validateForm()) {
+      return;
+    }
 
-      if (response.data.success) {
-        alert('Complaint submitted successfully!');
-        setShowForm(false);
-        setNewComplaint({
-          category: 'maintenance',
-          description: '',
-          priority: 'medium'
-        });
-        fetchComplaints();
+    setSubmitting(true);
+    setSubmitMessage({ type: 'info', text: 'Submitting complaint...' });
+
+    try {
+      const response = await mockSubmitComplaint(newComplaint.title, newComplaint.description);
+      if (response.success) {
+        setSubmitMessage({ type: 'success', text: response.message || 'Complaint submitted successfully!' });
+        setNewComplaint({ title: '', description: '' }); // Clear form
+        // Trigger re-fetch for the list automatically via `submitting` dependency
+      } else {
+        setSubmitMessage({ type: 'error', text: response.message || 'Failed to submit complaint.' });
       }
-    } catch (error) {
-      console.error('Error submitting complaint:', error);
-      alert('Failed to submit complaint. Please try again.');
+    } catch (err) {
+      setSubmitMessage({ type: 'error', text: err.message || 'An error occurred during submission.' });
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const getCategoryIcon = (category) => {
-    const icons = {
-      water: '💧',
-      electricity: '⚡',
-      cleanliness: '🧹',
-      wifi: '📶',
-      maintenance: '🔧',
-      others: '📋'
-    };
-    return icons[category] || '📋';
-  };
-
-  const getStatusColor = (status) => {
-    const colors = {
-      pending: '#FF9800',
-      'in-progress': '#2196F3',
-      resolved: '#4CAF50',
-      rejected: '#F44336'
-    };
-    return colors[status] || '#757575';
-  };
-
-  const getPriorityColor = (priority) => {
-    const colors = {
-      low: '#4CAF50',
-      medium: '#FF9800',
-      high: '#F44336',
-      urgent: '#D32F2F'
-    };
-    return colors[priority] || '#757575';
-  };
-
-  if (loading) {
-    return (
-      <div className="loading-state">
-        <div className="loader"></div>
-        <p>Loading complaints...</p>
-      </div>
-    );
+  if (authGlobalLoading || loading) {
+    return <div className="complaints-container loading-state">Loading Complaints...</div>;
   }
 
   return (
-    <motion.div
-      className="complaints"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="complaints-header">
-        <div>
-          <h2 className="page-title">My Complaints</h2>
-          <p className="page-subtitle">Track and manage your hostel complaints</p>
-        </div>
-        <button 
-          className="new-complaint-btn" 
-          onClick={() => setShowForm(!showForm)}
-        >
-          {showForm ? 'Cancel' : '+ New Complaint'}
-        </button>
-      </div>
+    <div className="complaints-container">
+      <h1 className="page-title">My <span className="gradient-text">Complaints</span></h1>
 
-      {showForm && (
-        <motion.form
-          className="complaint-form"
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          onSubmit={handleSubmit}
-        >
-          <div className="form-grid">
-            <div className="form-group">
-              <label>Category *</label>
-              <select
-                value={newComplaint.category}
-                onChange={(e) => setNewComplaint({...newComplaint, category: e.target.value})}
-                required
-              >
-                <option value="water">Water</option>
-                <option value="electricity">Electricity</option>
-                <option value="cleanliness">Cleanliness</option>
-                <option value="wifi">WiFi</option>
-                <option value="maintenance">Maintenance</option>
-                <option value="others">Others</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>Priority *</label>
-              <select
-                value={newComplaint.priority}
-                onChange={(e) => setNewComplaint({...newComplaint, priority: e.target.value})}
-                required
-              >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-                <option value="urgent">Urgent</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>Description *</label>
-            <textarea
-              placeholder="Describe your complaint in detail..."
-              value={newComplaint.description}
-              onChange={(e) => setNewComplaint({...newComplaint, description: e.target.value})}
-              rows="5"
-              maxLength="500"
-              required
+      <div className="complaint-form-section" data-aos="fade-right">
+        <h2><FiSend /> Submit a New Complaint</h2>
+        <form onSubmit={handleSubmitComplaint} className="complaint-form">
+          <div className="form-field">
+            <label htmlFor="title">Title *</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={newComplaint.title}
+              onChange={handleChange}
+              placeholder="e.g., Leaky Faucet in Room 101"
+              className={formErrors.title ? 'error' : ''}
+              disabled={submitting}
             />
-            <small>{newComplaint.description.length}/500 characters</small>
+            {formErrors.title && <span className="error-text">{formErrors.title}</span>}
           </div>
-
-          <div className="form-actions">
-            <button type="button" className="btn-secondary" onClick={() => setShowForm(false)}>
-              Cancel
-            </button>
-            <button type="submit" className="btn-primary">
-              Submit Complaint
-            </button>
+          <div className="form-field">
+            <label htmlFor="description">Description *</label>
+            <textarea
+              id="description"
+              name="description"
+              value={newComplaint.description}
+              onChange={handleChange}
+              placeholder="Provide detailed information about the issue."
+              rows="4"
+              className={formErrors.description ? 'error' : ''}
+              disabled={submitting}
+            ></textarea>
+            {formErrors.description && <span className="error-text">{formErrors.description}</span>}
           </div>
-        </motion.form>
-      )}
-
-      <div className="complaints-stats">
-        <div className="stat-card">
-          <span className="stat-icon">📊</span>
-          <div>
-            <h3>{complaints.length}</h3>
-            <p>Total Complaints</p>
-          </div>
-        </div>
-        <div className="stat-card">
-          <span className="stat-icon">⏳</span>
-          <div>
-            <h3>{complaints.filter(c => c.status === 'pending').length}</h3>
-            <p>Pending</p>
-          </div>
-        </div>
-        <div className="stat-card">
-          <span className="stat-icon">🔄</span>
-          <div>
-            <h3>{complaints.filter(c => c.status === 'in-progress').length}</h3>
-            <p>In Progress</p>
-          </div>
-        </div>
-        <div className="stat-card">
-          <span className="stat-icon">✅</span>
-          <div>
-            <h3>{complaints.filter(c => c.status === 'resolved').length}</h3>
-            <p>Resolved</p>
-          </div>
-        </div>
+          {submitMessage.text && (
+            <div className={`submission-message ${submitMessage.type}`}>
+              {submitMessage.type === 'success' ? <FiCheckCircle size={20} /> : <FiAlertCircle size={20} />}
+              <span>{submitMessage.text}</span>
+            </div>
+          )}
+          <button type="submit" className="submit-complaint-btn" disabled={submitting}>
+            {submitting ? (
+              <>
+                <span className="loading-spinner">⏳</span> Submitting...
+              </>
+            ) : (
+              <>
+                <FiSend /> Submit Complaint
+              </>
+            )}
+          </button>
+        </form>
       </div>
 
-      <div className="complaints-list">
-        {complaints.length > 0 ? (
-          complaints.map((complaint, index) => (
-            <motion.div
-              key={complaint._id}
-              className={`complaint-card ${complaint.status}`}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <div className="complaint-header">
-                <div className="complaint-title">
-                  <span className="category-icon">{getCategoryIcon(complaint.category)}</span>
-                  <h3>{complaint.category.charAt(0).toUpperCase() + complaint.category.slice(1)} Issue</h3>
-                </div>
-                <span 
-                  className="status-badge"
-                  style={{ backgroundColor: getStatusColor(complaint.status) + '20', 
-                           color: getStatusColor(complaint.status) }}
-                >
-                  {complaint.status}
-                </span>
-              </div>
-              
-              <p className="complaint-description">{complaint.description}</p>
-              
-              <div className="complaint-footer">
-                <span 
-                  className="priority-badge"
-                  style={{ color: getPriorityColor(complaint.priority) }}
-                >
-                  {complaint.priority.toUpperCase()} Priority
-                </span>
-                <span className="complaint-date">
-                  {new Date(complaint.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                  })}
-                </span>
-              </div>
-
-              {complaint.resolution && (
-                <div className="resolution-section">
-                  <h4>Resolution</h4>
-                  <p>{complaint.resolution}</p>
-                  {complaint.resolvedAt && (
-                    <span className="resolved-date">
-                      Resolved on: {new Date(complaint.resolvedAt).toLocaleDateString()}
-                    </span>
-                  )}
-                </div>
-              )}
-            </motion.div>
-          ))
+      <div className="complaint-list-section" data-aos="fade-left">
+        <h2><FiList /> My Past Complaints</h2>
+        {complaints.length === 0 ? (
+          <p className="no-complaints-message">You have not submitted any complaints yet.</p>
         ) : (
-          <div className="empty-state">
-            <span className="empty-icon">📋</span>
-            <h3>No complaints found</h3>
-            <p>You haven't raised any complaints yet</p>
+          <div className="complaints-grid">
+            {complaints.map((complaint) => (
+              <div key={complaint._id} className="complaint-card">
+                <div className="complaint-card-header">
+                  <h3>{complaint.title}</h3>
+                  <span className={`complaint-status status-${complaint.status?.toLowerCase()}`}>{complaint.status}</span>
+                </div>
+                <p className="complaint-description">{complaint.description}</p>
+                <p className="complaint-date">Submitted: {new Date(complaint.submittedAt).toLocaleDateString()}</p>
+              </div>
+            ))}
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
